@@ -44,11 +44,17 @@ set mouse=a " マウスを使用可能にする
 set nrformats-=octal " 8進数表示を無効化
 
 "## キー入力関係
-set backspace=indent,eol,start " Backspaceキーの影響範囲に制限を設けない
-set whichwrap=b,s,h,l,<,>,[,]  " 行頭行末の左右移動で行をまたぐ
-set scrolloff=5                " スクロールする際に上下に余裕を持たせる
-set sidescrolloff=16           " スクロールする際に左右に余裕を持たせる
-set sidescroll=1               " 左右スクロールは1文字ずつ行う
+set backspace=indent,eol,start           " Backspaceキーの影響範囲に制限を設けない
+set whichwrap=b,s,h,l,<,>,[,]            " 行頭行末の左右移動で行をまたぐ
+set scrolloff=5                          " スクロールする際に上下に余裕を持たせる
+set sidescrolloff=16                     " スクロールする際に左右に余裕を持たせる
+set sidescroll=1                         " 左右スクロールは1文字ずつ行う
+" {入力後、Enterで}を自動入力する
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+" [入力後、Enterで]を自動入力する
+inoremap [<Enter> []<Left><CR><ESC><S-o>
+" (入力後、Enterで)を自動入力する
+inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
 "# 検索関係
 set hlsearch   " 検索文字列をハイライトにする
