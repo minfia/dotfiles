@@ -85,4 +85,5 @@ set clipboard+=autoselect
 
 "# その他
 set history=100 " コマンド履歴の数を変更
+set visualbell  " Beep音を消す
 
