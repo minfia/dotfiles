@@ -56,6 +56,11 @@ inoremap [<Enter> []<Left><CR><ESC><S-o>
 " (入力後、Enterで)を自動入力する
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
+"## インデント関係
+set smartindent  " インデントを自動で入れる
+set shiftwidth=4 " smartindentで入れるスペース数
+set tabstop=4   " タブのスペース数
+
 "# 検索関係
 set hlsearch   " 検索文字列をハイライトにする
 set ignorecase " 大文字と小文字を区別しない
