@@ -84,7 +84,7 @@ if _curfile == 'Makefile'
     set noexpandtab
 endif
 
-"# クリップボード関係
+"# クリップボード関係(vimが+clipboardの時のみ有効)
 set clipboard+=unnamed
 set clipboard+=autoselect
 
