@@ -1,7 +1,7 @@
 "# 外見設定
 set title           " タイトル表示
 set number          " 行番号表示
-syntax on           " 構文ハイライト有効
+"syntax on           " 構文ハイライト有効
 set showmatch       " 対応する括弧の強調表示
 set background=dark " 背景をダークに合わせる
 set cursorline      " カーソルラインの表示
@@ -91,4 +91,21 @@ set clipboard+=autoselect
 "# その他
 set history=100 " コマンド履歴の数を変更
 set visualbell  " Beep音を消す
+
+"## deinの設定(カラースキームの設定はこの処理が終わった後に記入する事)
+if &compatible
+  set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+if dein#load_state('~/.vim/dein')
+  call dein#begin('~/.vim/dein')
+  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
+  " 追加したいプラグインを記入
+  " ここから
+  " ここまで
+  call dein#end()
+  call dein#save_state()
+endif
+syntax on           " 構文ハイライト有効
 
