@@ -13,6 +13,8 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 6. 文字コード
 7. 不可視文字の可視化
 8. Beep音の無効化
+9. deinのインストール
+10. fugitiveのインストール
 
 ### 対応言語
 * シェルスクリプト
@@ -30,9 +32,9 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 - .py
 
 # インストール
-`$ git clone XXXXXXXX`
+`$ git clone https://github.com/minfia/vim_setting.git`
 
-`$ cd XXXXXXXX`
+`$ cd vim_setting`
 
 `$ ./install.sh`
 
