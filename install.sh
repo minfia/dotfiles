@@ -16,5 +16,8 @@ if [ ! -d ~/.vim/dein ]; then
   curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > ./installer.sh
   sh ./installer.sh ~/.vim/dein
   rm -f installer.sh
+  vim -c ":call dein#install()" -c ":q"
 fi
+
+echo -e "\nvim setting done!"
 

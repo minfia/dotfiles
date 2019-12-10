@@ -103,6 +103,7 @@ if dein#load_state('~/.vim/dein')
   call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
   " 追加したいプラグインを記入
   " ここから
+  call dein#add('tpope/vim-fugitive')
   " ここまで
   call dein#end()
   call dein#save_state()
