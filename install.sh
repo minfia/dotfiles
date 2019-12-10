@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -e ".vimrc" ]; then
+if [ -e ~/.vimrc ]; then
   cp ~/.vimrc ~/.vimrc.bak
 fi
 
