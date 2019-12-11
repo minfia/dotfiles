@@ -16,9 +16,9 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 9. プラグインのインストール
 
 #### プラグイン一覧
-- dein
+* dein
 
-- fugitive
+* fugitive
 
 ### 対応言語
 * シェルスクリプト
@@ -27,13 +27,13 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 
 ### 対応ファイル形式
 
-- .sh
+* .sh
 
-- .c
+* .c
 
-- .h
+* .h
 
-- .py
+* .py
 
 # インストール
 `$ git clone https://github.com/minfia/vim_setting.git`
