@@ -34,9 +34,13 @@ set statusline+=%r " 読み取り専用か表示
 set statusline+=%w " プレビューウィンドウか表示
 "### 右寄せ
 set statusline+=%=                 " 右寄せ設定
+set statusline+=%{fugitive#statusline()} " Gitブランチ名表示
+set statusline+=\ \  " 空白2つ
 set statusline+=[%b/0x%B]          " カーソル位置の文字コードを10/16進数表示
+set statusline+=\ \  " 空白2つ
 set statusline+=[%{&fileformat}]   " ファイルの改行コードを表示
 set statusline+=[%{&fileencoding}] " ファイルの文字コードを表示
+set statusline+=\ \  " 空白2つ
 set statusline+=[%02v:%l/%L]       " カーソル位置の桁数と行列、ファイル全体の行を表示
 
 "# 操作関係
