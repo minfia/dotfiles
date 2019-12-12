@@ -107,10 +107,18 @@ if dein#load_state('~/.vim/dein')
   call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
   " 追加したいプラグインを記入
   " ここから
-  call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-fugitive')    " Gitプラグイン
+  call dein#add('tpope/vim-markdown')    " Markdownプラグイン
+  call dein#add('kannokanno/previm')     " Markdownプラグイン
+  call dein#add('tyru/open-browser.vim') " Markdownプラグイン
   " ここまで
   call dein#end()
   call dein#save_state()
 endif
 syntax on           " 構文ハイライト有効
+
+"## Markdownのプレビュー設定
+" Ctrl+pでプレビュー
+nnoremap <silent> <C-p> :PrevimOpen<CR>
+let g:previm_enable_realtime=1 " リアルタイム更新を有効
 

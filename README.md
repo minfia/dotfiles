@@ -16,23 +16,22 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 9. プラグインのインストール
 
 #### プラグイン一覧
-* dein
-
-* fugitive
+* Shougo/dein
+* tpope/fugitive
+* tpope/vim-markdown
+* kannokanno/previm
+* tyru/open-browser.vim
 
 ### 対応言語
 * シェルスクリプト
 * C言語
 * Python
+* Markdown
 
 ### 対応ファイル形式
-
 * .sh
-
 * .c
-
 * .h
-
 * .py
 
 # インストール
