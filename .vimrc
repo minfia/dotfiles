@@ -59,6 +59,11 @@ inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 " (入力後、Enterで)を自動入力する
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
+" insert mode時にCtrl+hjklでカーソル移動
+imap <C-h> <Left>
+imap <C-j> <Down>
+imap <C-k> <Up>
+imap <C-l> <Right>
 
 "## インデント関係
 set smartindent  " インデントを自動で入れる
