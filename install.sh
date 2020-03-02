@@ -19,7 +19,8 @@ if [ ! -d ~/.vim/dein ]; then
   sh ./installer.sh ~/.vim/dein
   rm -f installer.sh
 fi
-vim -c ":call dein#install()" -c ":q"
 
 echo -e "\nvim setting done!"
+echo "Please start vim."
+echo "After startup, execute ':call dein#install()'."
 
