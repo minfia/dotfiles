@@ -15,7 +15,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 8. Beep音の無効化
 9. プラグインのインストール
 
-#### プラグイン一覧
+### プラグイン一覧
 * Shougo/dein
 * tpope/fugitive
 * tpope/vim-markdown
@@ -34,6 +34,11 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * .c
 * .h
 * .py
+
+### インストールに必要な環境
+* gcc
+* make
+* libncurses5-dev
 
 # インストール
 `$ git clone https://github.com/minfia/vim_setting.git`
