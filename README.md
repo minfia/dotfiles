@@ -21,6 +21,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * tpope/vim-markdown
 * kannokanno/previm
 * tyru/open-browser.vim
+* GNU GLOBAL
 
 ### 対応言語
 * シェルスクリプト

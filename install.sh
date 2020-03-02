@@ -10,6 +10,7 @@ fi
 # vimの設定をインストール
 cp .vimrc ~/
 cp -r .vim/ ~/
+mkdir ~/.vim/plugin
 
 # deinのインストール
 if [ ! -d ~/.vim/dein ]; then
@@ -19,6 +20,18 @@ if [ ! -d ~/.vim/dein ]; then
   sh ./installer.sh ~/.vim/dein
   rm -f installer.sh
 fi
+
+# Gnu GLOBALのインストール
+GGLOBAL_VER=6.6.4
+wget http://tamacom.com/global/global-$GGLOBAL_VER.tar.gz
+tar zxf global-$GGLOBAL_VER.tar.gz
+cd global-$GGLOBAL_VER/
+./configure --disable-gtagscscope
+make
+sudo make install
+cp -f ./gtags.vim ~/.vim/plugin/
+cd ../
+rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
 
 echo -e "\nvim setting done!"
 echo "Please start vim."
