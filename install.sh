@@ -10,4 +10,5 @@ fi
 # tmuxの設定をインストール
 cp .tmux.conf ~/
 
+echo "tmux setting done!"
 
