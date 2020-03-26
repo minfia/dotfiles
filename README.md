@@ -38,6 +38,8 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * .py
 
 ### インストールに必要な環境
+* curl
+* wget
 * gcc
 * make
 * libncurses5-dev
