@@ -16,16 +16,16 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 9. プラグインのインストール
 
 ### プラグイン一覧
-* Shougo/dein
-* tpope/fugitive
-* tpope/vim-markdown
-* kannokanno/previm
-* tyru/open-browser.vim
-* GNU GLOBAL
+* [Shougo/dein](https://github.com/Shougo/dein.vim)
+* [tpope/fugitive](https://github.com/tpope/vim-fugitive)
+* [tpope/vim-markdown](https://github.com/tpope/vim-markdown)
+* [kannokanno/previm](https://github.com/previm/previm)
+* [tyru/open-browser.vim](https://github.com/tyru/open-browser.vim)
+* [GNU GLOBAL](https://www.gnu.org/software/global/)
 
 ### 対応言語
 * シェルスクリプト
-* C言語/C++
+* C/C++
 * Python
 * Markdown
 
