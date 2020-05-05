@@ -36,4 +36,6 @@ rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
 echo -e "\nvim setting done!"
 echo "Please start vim."
 echo "After startup, execute ':call dein#install()'."
+echo "and 'cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app'"
+echo "run to ./install.sh"
 

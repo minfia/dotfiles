@@ -120,7 +120,7 @@ if dein#load_state('~/.vim/dein')
   " ここから
   call dein#add('tpope/vim-fugitive')    " Gitプラグイン
   call dein#add('tpope/vim-markdown')    " Markdownプラグイン
-  call dein#add('kannokanno/previm')     " Markdownプラグイン
+  call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'sh -C "cd app & yarn install"' })  " Markdownプラグイン
   call dein#add('tyru/open-browser.vim') " Markdownプラグイン
   " ここまで
   call dein#end()
@@ -130,6 +130,5 @@ syntax on           " 構文ハイライト有効
 
 "## Markdownのプレビュー設定
 " Ctrl+pでプレビュー
-nnoremap <silent> <C-p> :PrevimOpen<CR>
-let g:previm_enable_realtime=1 " リアルタイム更新を有効
+nnoremap <silent> <C-p> :MarkdownPreview<CR>
 

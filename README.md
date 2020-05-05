@@ -19,7 +19,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [Shougo/dein](https://github.com/Shougo/dein.vim)
 * [tpope/fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-markdown](https://github.com/tpope/vim-markdown)
-* [kannokanno/previm](https://github.com/previm/previm)
+* [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
 * [tyru/open-browser.vim](https://github.com/tyru/open-browser.vim)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
