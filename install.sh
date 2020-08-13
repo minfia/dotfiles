@@ -5,6 +5,7 @@
 if [ -e ~/.vimrc ]; then
   # 既に.vimrcが存在する場合は、バックアップをとる
   cp ~/.vimrc ~/.vimrc.bak
+  mv ~/.vim ~/.vim.bak
 fi
 
 # vimの設定をインストール

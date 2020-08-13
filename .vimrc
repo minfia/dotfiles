@@ -122,6 +122,11 @@ if dein#load_state('~/.vim/dein')
   call dein#add('tpope/vim-markdown')    " Markdownプラグイン
   call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'sh -C "cd app & yarn install"' })  " Markdownプラグイン
   call dein#add('tyru/open-browser.vim') " Markdownプラグイン
+  call dein#add('prabirshrestha/vim-lsp') " LSPプラグイン
+  call dein#add('mattn/vim-lsp-settings') " LSPプラグイン
+  call dein#add('prabirshrestha/async.vim') " 補完プラグイン
+  call dein#add('prabirshrestha/asyncomplete.vim') " 補完プラグイン(非同期)
+  call dein#add('prabirshrestha/asyncomplete-lsp.vim') " 補完プラグイン(非同期)
   " ここまで
   call dein#end()
   call dein#save_state()
@@ -131,4 +136,10 @@ syntax on           " 構文ハイライト有効
 "## Markdownのプレビュー設定
 " Ctrl+pでプレビュー
 nnoremap <silent> <C-p> :MarkdownPreview<CR>
+
+"## vim-lspの設定
+let g:lsp_highlights_enabled = 0
+let g:lsp_textprop_enabled = 0
+let g:lsp_diagnostics_enabled = 0
+
 
