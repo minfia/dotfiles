@@ -116,7 +116,7 @@ set noundofile↲
 "  (vimが+clipboardの時のみ有効)
 set clipboard+=unnamed
 set clipboard+=autoselect
-vnoremap x "_x
+" ノーマルモードでxキーで文字を削除したときにヤンクしない
 nnoremap x "_x
 
 "# その他 -----------------------------------------------------------------------------------------
