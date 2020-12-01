@@ -27,6 +27,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [prabirshrestha/async.vim](https://github.com/prabirshrestha/async.vim)
 * [prabirshrestha/asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
 * [prabirshrestha/asyncomplete-lsp.vim](https://github.com/prabirshrestha/asyncomplete-lsp.vim)
+* [scrooloose/nerdtree](https://github.com/preservim/nerdtree)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
 ### 対応言語

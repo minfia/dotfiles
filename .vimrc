@@ -143,6 +143,7 @@ if dein#load_state('~/.vim/dein')
   call dein#add('prabirshrestha/async.vim') " 補完プラグイン
   call dein#add('prabirshrestha/asyncomplete.vim') " 補完プラグイン(非同期)
   call dein#add('prabirshrestha/asyncomplete-lsp.vim') " 補完プラグイン(非同期)
+  call dein#add('scrooloose/nerdtree') " ツリー表示プラグイン
   " ここまで
   call dein#end()
   call dein#save_state()
@@ -158,4 +159,6 @@ let g:lsp_highlights_enabled = 0
 let g:lsp_textprop_enabled = 0
 let g:lsp_diagnostics_enabled = 0
 
+"## NERDTreeの設定
+nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
 
