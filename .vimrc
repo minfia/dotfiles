@@ -144,6 +144,7 @@ if dein#load_state('~/.vim/dein')
   call dein#add('prabirshrestha/asyncomplete.vim') " 補完プラグイン(非同期)
   call dein#add('prabirshrestha/asyncomplete-lsp.vim') " 補完プラグイン(非同期)
   call dein#add('scrooloose/nerdtree') " ツリー表示プラグイン
+  call dein#add('easymotion/vim-easymotion') " カーソル移動プラグイン
   " ここまで
   call dein#end()
   call dein#save_state()
