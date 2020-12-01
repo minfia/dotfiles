@@ -103,14 +103,14 @@ else
     set expandtab
 endif
 
-"## ファイル上書き前のバックアップ作成の無効化↲
-set nowritebackup↲
-"## スワップファイルを(.swp)を作らない↲
-set noswapfile↲
-"## バックアップファイル(~)を作らない↲
-set nobackup↲
-"## UNDOファイルを(un~)を作らない↲
-set noundofile↲
+"## ファイル上書き前のバックアップ作成の無効化
+set nowritebackup
+"## スワップファイルを(.swp)を作らない
+set noswapfile
+"## バックアップファイル(~)を作らない
+set nobackup
+"## UNDOファイルを(un~)を作らない
+set noundofile
 
 "# クリップボード関係 -----------------------------------------------------------------------------
 "  (vimが+clipboardの時のみ有効)
