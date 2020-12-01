@@ -1,6 +1,9 @@
 #!/bin/bash
 
 
+DISTRIBUTOR=
+PKG_MNG_SYS=
+
 # パッケージ管理システムでインストール済みかチェック
 # $1-対象とするパッケージ管理システム, $2-チェックするパッケージ
 # 0: インストール済み, 1: 未インストール
@@ -61,7 +64,47 @@ function install_pkg()
   fi
 }
 
+# ディストリビューションを確認
+function check_distribution()
+{
+  if command -v lsb_release 2>/dev/null; then
+    DISTRIBUTOR=$(lsb_release -a 2>&1 | grep 'Distributor ID' | awk '{print $3}')
+  elif [ -e /etc/fedora-release ]; then
+    DISTRIBUTOR="Fedora"
+  elif [ -e /etc/redhat-release ]; then
+    DISTRIBUTOR=$(cat /etc/redhat-release | cut -d ' ' -f 1)
+  elif [ -e /etc/arch-release ]; then
+    DISTRIBUTOR="Arch"
+  elif [ -e /etc/SuSE-release ]; then
+    DISTRIBUTOR="SUSE"
+  elif [ -e /etc/mandriva-release ]; then
+    DISTRIBUTOR="Mandriva"
+  elif [ -e /etc/vine-release ]; then
+    DISTRIBUTOR="Vine"
+  elif [ -e /etc/gentoo-release ]; then
+    DISTRIBUTOR="Gentoo"
+  else
+    DISTRIBUTOR="Unkown"
+  fi
+}
 
+# ディストリビューションからパッケージ管理システムを設定する
+function set_package_management_system_at_distribution()
+{
+  case "$1" in
+    "Ubuntu" )
+      PKG_MNG_SYS="apt"
+      ;;
+    * )
+      echo "Not supported distribution and package management system."
+      exit 1
+      ;;
+  esac
+}
+
+
+check_distribution
+set_package_management_system_at_distribution $DISTRIBUTOR
 
 if [ -e ~/.vimrc ]; then
   # 既に.vimrcが存在する場合は、バックアップをとる
@@ -75,14 +118,14 @@ cp -r .vim/ ~/
 mkdir ~/.vim/plugin
 
 # 環境構築に必要なパッケージのインストール
-install_pkg "apt" "curl"
-install_pkg "apt" "wget"
-install_pkg "apt" "gcc"
-install_pkg "apt" "make"
-install_pkg "apt" "libncurses5-dev"
-install_pkg "apt" "clang-tools"
-install_pkg "apt" "python3-pip"
-install_pkg "apt" "python3-venv"
+install_pkg $PKG_MNG_SYS "curl"
+install_pkg $PKG_MNG_SYS "wget"
+install_pkg $PKG_MNG_SYS "gcc"
+install_pkg $PKG_MNG_SYS "make"
+install_pkg $PKG_MNG_SYS "libncurses5-dev"
+install_pkg $PKG_MNG_SYS "clang-tools"
+install_pkg $PKG_MNG_SYS "python3-pip"
+install_pkg $PKG_MNG_SYS "python3-venv"
 install_pkg "pip3" "python-language-server"
 
 # deinのインストール
