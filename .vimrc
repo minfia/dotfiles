@@ -115,6 +115,8 @@ set noundofile↲
 "  (vimが+clipboardの時のみ有効)
 set clipboard+=unnamed
 set clipboard+=autoselect
+vnoremap x "_x
+nnoremap x "_x
 
 "# その他 -----------------------------------------------------------------------------------------
 set history=100 " コマンド履歴の数を変更
