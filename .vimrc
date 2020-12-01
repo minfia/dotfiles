@@ -53,6 +53,7 @@ set whichwrap=b,s,h,l,<,>,[,]            " 行頭行末の左右移動で行を�
 set scrolloff=5                          " スクロールする際に上下に余裕を持たせる
 set sidescrolloff=16                     " スクロールする際に左右に余裕を持たせる
 set sidescroll=1                         " 左右スクロールは1文字ずつ行う
+let mapleader="\<Space>"                 " LeaderキーをSpaceに設定
 " {入力後、Enterで}を自動入力する
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 " [入力後、Enterで]を自動入力する
@@ -150,7 +151,7 @@ syntax on           " 構文ハイライト有効
 
 "## Markdownのプレビュー設定
 " Ctrl+pでプレビュー
-nnoremap <silent> <C-p> :MarkdownPreview<CR>
+nnoremap <silent> <Leader>p :MarkdownPreview<CR>
 
 "## vim-lspの設定
 let g:lsp_highlights_enabled = 0
