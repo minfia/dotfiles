@@ -49,6 +49,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * gcc
 * make
 * libncurses5-dev
+* clang-tools
 * python3-venv
 * python-language-server
 
