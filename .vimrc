@@ -165,4 +165,8 @@ let g:lsp_diagnostics_enabled = 0
 
 "## NERDTreeの設定
 nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
+" ツリー表示から除外する
+let NERDTreeIgnore=['\.o$', '\.git$']
+" 隠しファイルを表示
+let NERDTreeShowHidden=1
 
