@@ -1,4 +1,5 @@
 "# 外見設定 ---------------------------------------------------------------------------------------
+scriptencoding utf-8
 set title           " タイトル表示
 set number          " 行番号表示
 "syntax on           " 構文ハイライト有効
@@ -10,6 +11,8 @@ set cmdheight=2     " メッセージ表示欄を2行にする
 "## 不可視文字の可視化
 set list
 set listchars=tab:￫\ ,eol:↲
+highlight JpSpace cterm=reverse ctermfg=lightblue gui=reverse guifg=lightblue
+autocmd BufRead,BufNew * match JpSpace /　/
 
 "## カーソル表示
 if &term =~ "screen"
