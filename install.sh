@@ -92,7 +92,7 @@ function check_distribution()
 function set_package_management_system_at_distribution()
 {
   case "$1" in
-    "Ubuntu" )
+    "Ubuntu" | "Debian" )
       PKG_MNG_SYS="apt"
       ;;
     * )
