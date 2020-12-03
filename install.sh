@@ -104,6 +104,7 @@ function set_package_management_system_at_distribution()
 
 
 check_distribution
+echo "The distribution for this system is '$DISTRIBUTOR'."
 set_package_management_system_at_distribution $DISTRIBUTOR
 
 if [ -e ~/.vimrc ]; then
