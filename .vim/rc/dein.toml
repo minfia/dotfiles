@@ -1,0 +1,78 @@
+# 書き方
+# [[plugins]]
+# repo = 'Githubのリポジトリ'
+# hook_add = 
+# hook_source = 
+# hook_post_source = 
+# hook_post_update = 
+# hook_done_update = 
+
+# |   hook の名前    |              実行されるタイミング            | lazy OFF | lazy ON |
+# | hook_add         | プラグインが dein.vim によって追加されたとき |    OK    |    OK   |
+# | hook_source      | プラグインが読み込まれる直前                 |    NG    |    OK   |
+# | hook_post_source | プラグインが読み込まれた直後                 |    NG    |    OK   |
+# | hook_post_update | プラグインが更新された直後                   |    OK    |    OK   |
+# | hook_done_update | プラグイン全ての更新が終わった直後           |    OK    |    OK   |
+
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# Gitプラグイン
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# Markdownプラグイン
+[[plugins]]
+repo = 'tpope/vim-markdown'
+
+# Markdownプラグイン
+[[plugins]]
+repo = 'iamcco/markdown-preview.nvim'
+hook_add = '''
+    nnoremap <silent> <Leader>p :MarkdownPreview<CR>
+'''
+on_ft = ["markdown", "pandoc.markdown", "rmd"]
+build = 'sh -C "cd app & yarn install"'
+
+# Markdownプラグイン
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+# LSPプラグイン
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+
+# LSPプラグイン
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+hook_add = '''
+    let g:lsp_highlights_enabled = 0
+    let g:lsp_textprop_enabled = 0
+    let g:lsp_diagnostics_enabled = 0
+'''
+
+# 補完プラグイン
+[[plugins]]
+repo = 'prabirshrestha/async.vim'
+
+# 補完プラグイン(非同期)
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+# 補完プラグイン(非同期)
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
+# ツリー表示プラグイン
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+    nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
+    let NERDTreeIgnore = ['\.o$', '\.git$']
+    let NERDTreeShowHidden = 1
+'''
+
+# カーソル移動プラグイン
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+
