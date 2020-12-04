@@ -125,6 +125,8 @@ install_pkg $PKG_MNG_SYS "gcc"
 install_pkg $PKG_MNG_SYS "make"
 install_pkg $PKG_MNG_SYS "libncurses5-dev"
 install_pkg $PKG_MNG_SYS "clang-tools"
+install_pkg $PKG_MNG_SYS "git"
+install_pkg $PKG_MNG_SYS "python3"
 install_pkg $PKG_MNG_SYS "python3-pip"
 install_pkg $PKG_MNG_SYS "python3-venv"
 install_pkg "pip3" "python-language-server"
@@ -152,7 +154,7 @@ rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
 
 echo -e "\nvim setting done!"
 echo "Please start vim."
-echo "After startup, execute ':call dein#install()'."
-echo "and 'cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app'"
+echo "This completes the plugin installation."
+echo "Execute 'cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app' if plugin install finished."
 echo "run to ./install.sh"
 

@@ -46,20 +46,30 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * .py
 
 ### インストールに必要な環境
+以下はインストールされていなければ、自動でインストールする。
 * curl
 * wget
 * gcc
 * make
 * libncurses5-dev
 * clang-tools
+* git
+* python3
 * python3-pip
 * python3-venv
 * python-language-server
 
+以下は各自でインストールする。
+* lsb-release
+
+
 # インストール
-`$ git clone https://github.com/minfia/vim_setting.git`
-
-`$ cd vim_setting`
-
-`$ ./install.sh`
+```bash
+$ git clone https://github.com/minfia/vim_setting.git
+$ cd vim_setting
+$ ./install.sh
+$ vim # プラグインのインストールが完了したら終了する
+$ cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
+$ ./install.sh
+```
 
