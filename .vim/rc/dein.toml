@@ -68,8 +68,8 @@ repo = 'prabirshrestha/asyncomplete-lsp.vim'
 repo = 'scrooloose/nerdtree'
 hook_add = '''
     nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
-    let NERDTreeIgnore = ['\.o$', '\.git$']
-    let NERDTreeShowHidden = 1
+    let g:NERDTreeIgnore = ['\.o$', '\.git$']
+    let g:NERDTreeShowHidden = 1
 '''
 
 # カーソル移動プラグイン
