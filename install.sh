@@ -30,7 +30,7 @@ function check_install_pkg()
       ;;
   esac
 
-  if [ $PKG = $2 ]; then
+  if [ "$PKG" = "$2" ]; then
     return 0
   else
     return 1
