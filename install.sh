@@ -152,9 +152,9 @@ cp -f ./gtags.vim ~/.vim/plugin/
 cd ../
 rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
 
+vim -c ":q"
+cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
+./install.sh
+
 echo -e "\nvim setting done!"
-echo "Please start vim."
-echo "This completes the plugin installation."
-echo "Execute 'cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app' if plugin install finished."
-echo "run to ./install.sh"
 
