@@ -41,15 +41,15 @@ repo = 'tyru/open-browser.vim'
 # LSPプラグイン
 [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
-
-# LSPプラグイン
-[[plugins]]
-repo = 'mattn/vim-lsp-settings'
 hook_add = '''
     let g:lsp_highlights_enabled = 0
     let g:lsp_textprop_enabled = 0
     let g:lsp_diagnostics_enabled = 0
 '''
+
+# LSPプラグイン
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
 
 # 補完プラグイン
 [[plugins]]
