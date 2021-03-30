@@ -98,6 +98,12 @@ set nobackup
 "## UNDOファイルを(un~)を作らない
 set noundofile
 
+"## 前回のカーソル位置記憶
+augroup memory_cursor_pos
+    autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
+    \ exe "normal g`\"" | endif
+augroup END
+
 
 "# 外見設定 ---------------------------------------------------------------------------------------
 scriptencoding utf-8
