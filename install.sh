@@ -108,9 +108,10 @@ echo "The distribution for this system is '$DISTRIBUTOR'."
 set_package_management_system_at_distribution $DISTRIBUTOR
 
 if [ -e ~/.vimrc ]; then
+  DATE_NOW=`date "+%Y%m%d_%H%M%S"`
   # 既に.vimrcが存在する場合は、バックアップをとる
-  cp ~/.vimrc ~/.vimrc.bak
-  mv ~/.vim ~/.vim.bak
+  mv ~/.vimrc ~/.vimrc.backup_$DATE_NOW
+  mv ~/.vim ~/.vim.backup_$DATE_NOW
 fi
 
 # vimの設定をインストール
