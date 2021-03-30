@@ -63,6 +63,10 @@ repo = 'prabirshrestha/asyncomplete.vim'
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
 
+# 閉じ補完プラグイン
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
 # ツリー表示プラグイン
 [[plugins]]
 repo = 'scrooloose/nerdtree'
