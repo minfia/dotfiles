@@ -109,11 +109,17 @@ augroup END
 scriptencoding utf-8
 set title           " タイトル表示
 set number          " 行番号表示
-syntax on           " 構文ハイライト有効
 set showmatch       " 対応する括弧の強調表示
-set background=dark " 背景をダークに合わせる
 set cursorline      " カーソルラインの表示
 set cmdheight=2     " メッセージ表示欄を2行にする
+
+"## カラースキーム設定↲
+syntax on           " 構文ハイライト有効↲
+set background=dark " 背景をダークに合わせる↲
+↲
+""### ポップアップメニューの色設定↲
+highlight Pmenu ctermbg=88 ctermfg=white            " メニュー
+highlight PmenuSel ctermbg=darkgreen ctermfg=black  " 選択時↲
 
 "## 不可視文字の可視化
 set list
