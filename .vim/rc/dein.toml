@@ -80,3 +80,7 @@ hook_add = '''
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 
+# tomlファイルシンタックスプラグイン
+[[plugins]]
+repo = 'cespare/vim-toml'
+
