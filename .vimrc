@@ -108,7 +108,6 @@ augroup END
 "# 外見設定 ---------------------------------------------------------------------------------------
 scriptencoding utf-8
 set title           " タイトル表示
-set number          " 行番号表示
 set showmatch       " 対応する括弧の強調表示
 set cursorline      " カーソルラインの表示
 set cmdheight=2     " メッセージ表示欄を2行にする
@@ -139,6 +138,13 @@ elseif &term =~ "xterm"
     let &t_EI.="\e[1 q"
     let &t_te.="\e[0 q"
 endif
+
+"## 行番号設定
+" 絶対と相対を表示することでカーソル位置の行のみ絶対行数表示にできる
+set number          " 絶対行番号表示
+set relativenumber  " 相対行番号表示
+" F3で絶対/相対行数表示を切り替える
+nnoremap <F3> :<C-u>setlocal relativenumber!<CR>
 
 "## ステータスバー関係
 set laststatus=2   " ステータス行を常に表示
