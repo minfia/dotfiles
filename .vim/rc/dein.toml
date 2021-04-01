@@ -51,10 +51,6 @@ hook_add = '''
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
 
-# 補完プラグイン
-[[plugins]]
-repo = 'prabirshrestha/async.vim'
-
 # 補完プラグイン(非同期)
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
