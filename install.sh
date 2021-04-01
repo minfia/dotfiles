@@ -142,7 +142,7 @@ if [ ! -d ~/.vim/dein ]; then
 fi
 
 # Gnu GLOBALのインストール
-GGLOBAL_VER=6.6.4
+GGLOBAL_VER=6.6.5
 wget http://tamacom.com/global/global-$GGLOBAL_VER.tar.gz
 tar zxf global-$GGLOBAL_VER.tar.gz
 cd global-$GGLOBAL_VER/
