@@ -11,6 +11,7 @@ set scrolloff=5                          " スクロールする際に上下に�
 set sidescrolloff=16                     " スクロールする際に左右に余裕を持たせる
 set sidescroll=1                         " 左右スクロールは1文字ずつ行う
 let mapleader="\<Space>"                 " LeaderキーをSpaceに設定
+set timeoutlen=200                       " キーマップのキー入力のタイムアウトを200msに設定
 
 "## Normal mode
 " xキーで文字を削除したときにヤンクしない

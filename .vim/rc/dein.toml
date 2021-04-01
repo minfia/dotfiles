@@ -72,6 +72,7 @@ repo = 'cohama/lexima.vim'
 repo = 'scrooloose/nerdtree'
 hook_add = '''
     nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
+    nnoremap <silent> <Leader>ff :NERDTreeFocus<CR>
     let g:NERDTreeIgnore = ['\.o$', '\.git$']
     let g:NERDTreeShowHidden = 1
 '''
