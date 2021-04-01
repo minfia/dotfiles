@@ -116,6 +116,7 @@ set cmdheight=2     " メッセージ表示欄を2行にする
 "## カラースキーム設定
 syntax on           " 構文ハイライト有効
 set background=dark " 背景をダークに合わせる
+highlight Constant term=underline ctermfg=203
 
 ""### ポップアップメニューの色設定
 highlight Pmenu ctermbg=88 ctermfg=white            " メニュー
