@@ -101,7 +101,7 @@ set noundofile
 
 "## 前回のカーソル位置記憶
 augroup memory_cursor_pos
-    autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
+    autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
     \ exe "normal g`\"" | endif
 augroup END
 
@@ -113,13 +113,13 @@ set showmatch       " 対応する括弧の強調表示
 set cursorline      " カーソルラインの表示
 set cmdheight=2     " メッセージ表示欄を2行にする
 
-"## カラースキーム設定↲
-syntax on           " 構文ハイライト有効↲
-set background=dark " 背景をダークに合わせる↲
-↲
-""### ポップアップメニューの色設定↲
+"## カラースキーム設定
+syntax on           " 構文ハイライト有効
+set background=dark " 背景をダークに合わせる
+
+""### ポップアップメニューの色設定
 highlight Pmenu ctermbg=88 ctermfg=white            " メニュー
-highlight PmenuSel ctermbg=darkgreen ctermfg=black  " 選択時↲
+highlight PmenuSel ctermbg=darkgreen ctermfg=black  " 選択時
 
 "## 不可視文字の可視化
 set list
