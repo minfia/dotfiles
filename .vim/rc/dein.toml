@@ -81,3 +81,10 @@ repo = 'easymotion/vim-easymotion'
 [[plugins]]
 repo = 'cespare/vim-toml'
 
+# タグ補間プラグイン
+[[plugins]]
+repo = 'alvan/vim-closetag'
+hock_add = '''
+    let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.erb, *.php, *.vue'
+'''
+
