@@ -29,6 +29,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [prabirshrestha/asyncomplete-lsp.vim](https://github.com/prabirshrestha/asyncomplete-lsp.vim)
 * [scrooloose/nerdtree](https://github.com/preservim/nerdtree)
 * [easymotion/vim-easymotion](https://github.com/easymotion/vim-easymotion)
+* [alvan/vim-closetag](https://github.com/alvan/vim-closetag)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
 ### 対応言語
