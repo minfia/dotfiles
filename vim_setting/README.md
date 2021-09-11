@@ -24,7 +24,6 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [tyru/open-browser.vim](https://github.com/tyru/open-browser.vim)
 * [prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp)
 * [mattn/vim-lsp-settings](https://github.com/mattn/vim-lsp-settings)
-* [prabirshrestha/async.vim](https://github.com/prabirshrestha/async.vim)
 * [prabirshrestha/asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
 * [prabirshrestha/asyncomplete-lsp.vim](https://github.com/prabirshrestha/asyncomplete-lsp.vim)
 * [scrooloose/nerdtree](https://github.com/preservim/nerdtree)
@@ -37,6 +36,8 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * C/C++
 * Python
 * Markdown
+* HTML
+* CSS
 
 ### 対応ファイル形式
 * .sh
@@ -71,9 +72,6 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 ```bash
 $ git clone https://github.com/minfia/vim_setting.git
 $ cd vim_setting
-$ ./install.sh
-$ vim # プラグインのインストールが完了したら終了する
-$ cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
 $ ./install.sh
 ```
 
