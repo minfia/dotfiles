@@ -17,7 +17,7 @@ function check_install_pkg()
   local PKG
   case "$1" in
     "apt" )
-      LIST=(`dpkg -l | grep $2`)
+      LIST=(`dpkg -l | grep -E "^ii  $2 "`)
       PKG=${LIST[1]}
       ;;
     "pip3" )
