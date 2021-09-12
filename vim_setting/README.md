@@ -21,6 +21,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [tpope/fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-markdown](https://github.com/tpope/vim-markdown)
 * [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+* [kannokanno/previm](https://github.com/previm/previm)(会社用)
 * [tyru/open-browser.vim](https://github.com/tyru/open-browser.vim)
 * [prabirshrestha/vim-lsp](https://github.com/prabirshrestha/vim-lsp)
 * [mattn/vim-lsp-settings](https://github.com/mattn/vim-lsp-settings)
@@ -70,8 +71,6 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 
 # インストール
 ```bash
-$ git clone https://github.com/minfia/vim_setting.git
-$ cd vim_setting
 $ ./install.sh
 ```
 

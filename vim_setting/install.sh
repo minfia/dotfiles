@@ -1,6 +1,17 @@
 #!/bin/bash
 
 
+COMPANY_FLAG=
+
+for OPT in "$@"
+do
+  case $OPT in
+    company )
+      COMPANY_FLAG=1;
+      ;;
+  esac
+done
+
 DISTRIBUTOR=
 PKG_MNG_SYS=
 
@@ -117,6 +128,11 @@ fi
 # vimの設定をインストール
 cp .vimrc ~/
 cp -r .vim/ ~/
+if [ $COMPANY_FLAG -eq 1 ]; then
+  cp ./toml/company/*.* ~/.vim/rc/
+else
+  cp ./toml/*.* ~/.vim/rc/
+fi
 mkdir ~/.vim/plugin
 
 # 環境構築に必要なパッケージのインストール
@@ -153,9 +169,12 @@ cp -f ./gtags.vim ~/.vim/plugin/
 cd ../
 rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
 
+# プラグインのインストール
 vim -c ":q"
-cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
-./install.sh
+if [ $COMPANY_FLAG -eq 0 ]; then
+  cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
+  ./install.sh
+fi
 
 echo -e "\nvim setting done!"
 

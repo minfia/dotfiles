@@ -1,0 +1,90 @@
+# 書き方
+# [[plugins]]
+# repo = 'Githubのリポジトリ'
+# hook_add = 
+# hook_source = 
+# hook_post_source = 
+# hook_post_update = 
+# hook_done_update = 
+
+# |   hook の名前    |              実行されるタイミング            | lazy OFF | lazy ON |
+# | hook_add         | プラグインが dein.vim によって追加されたとき |    OK    |    OK   |
+# | hook_source      | プラグインが読み込まれる直前                 |    NG    |    OK   |
+# | hook_post_source | プラグインが読み込まれた直後                 |    NG    |    OK   |
+# | hook_post_update | プラグインが更新された直後                   |    OK    |    OK   |
+# | hook_done_update | プラグイン全ての更新が終わった直後           |    OK    |    OK   |
+
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# Gitプラグイン
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# Markdownプラグイン
+[[plugins]]
+repo = 'tpope/vim-markdown'
+
+# Markdownプラグイン
+[[plugins]]
+repo = 'kannokanno/previm'
+hook_add = '''
+    nnoremap <silent> <Leader>p :PrevimOpen<CR>
+    let g:geprevim_enable_realtime = 1
+    let g:previm_updatetime = 100
+'''
+
+# Markdownプラグイン
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+# LSPプラグイン
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+hook_add = '''
+    let g:lsp_highlights_enabled = 0
+    let g:lsp_textprop_enabled = 0
+    let g:lsp_diagnostics_enabled = 0
+'''
+
+# LSPプラグイン
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+
+# 補完プラグイン(非同期)
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+# 補完プラグイン(非同期)
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+
+# 閉じ補完プラグイン
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+# ツリー表示プラグイン
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+    nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
+    nnoremap <silent> <Leader>ff :NERDTreeFocus<CR>
+    let g:NERDTreeIgnore = ['\.o$', '\.git$']
+    let g:NERDTreeShowHidden = 1
+'''
+
+# カーソル移動プラグイン
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+
+# tomlファイルシンタックスプラグイン
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+# タグ補間プラグイン
+[[plugins]]
+repo = 'alvan/vim-closetag'
+hock_add = '''
+    let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.erb, *.php, *.vue'
+'''
+
