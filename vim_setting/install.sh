@@ -28,7 +28,7 @@ function check_install_pkg()
   local PKG
   case "$1" in
     "apt" )
-      LIST=(`dpkg -l | grep $2`)
+      LIST=(`dpkg -l | grep -E "^ii  $2 "`)
       PKG=${LIST[1]}
       ;;
     "pip3" )
@@ -143,6 +143,7 @@ install_pkg $PKG_MNG_SYS "gcc"
 install_pkg $PKG_MNG_SYS "make"
 install_pkg $PKG_MNG_SYS "libncurses5-dev"
 install_pkg $PKG_MNG_SYS "clang-tools"
+install_pkg $PKG_MNG_SYS "vim"
 install_pkg $PKG_MNG_SYS "git"
 install_pkg $PKG_MNG_SYS "python3"
 install_pkg $PKG_MNG_SYS "python3-pip"
