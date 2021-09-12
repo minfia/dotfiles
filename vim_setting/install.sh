@@ -176,5 +176,4 @@ if [ $COMPANY_FLAG -eq 0 ]; then
   ./install.sh
 fi
 
-echo -e "\nvim setting done!"
-
+exit 0

@@ -46,3 +46,4 @@ else
   echo "set bell-style none" > $INPUTRC
 fi
 
+exit 0
