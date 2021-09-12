@@ -46,4 +46,7 @@ else
   echo "set bell-style none" > $INPUTRC
 fi
 
+source $BASHRC
+source $INPUTRC
+
 exit 0
