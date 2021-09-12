@@ -24,7 +24,7 @@ function add_alias () {
 
 
 # .bashrc設定
-BASHRC=./.bashrc
+BASHRC=~/.bashrc
 # 相対パスにする
 sed -i -e "/PS1=/s/\\\w\\\/\\\W\\\/" $BASHRC
 
@@ -37,7 +37,7 @@ add_alias "cp='cp -i'"
 
 
 # .inputrc設定
-INPUTRC=./.inputrc
+INPUTRC=~/.inputrc
 if [ -e $INPUTRC ]; then
   if [ "`grep "set bell-style none" $INPUTRC`" == "" ]; then
     echo -e "set bell-style none\n" >> $INPUTRC

@@ -72,27 +72,33 @@ done
 INSTALL_RES="install result:"
 
 if [ $FLAG_VIM -eq 1 ]; then
-  ./vim_setting/install.sh $VIM_TYPE
+
+  cd ./vim_setting/
+  ./install.sh $VIM_TYPE
   if [ $? -eq 0 ]; then
     INSTALL_RES="$INSTALL_RES\n    vim install success"
   else
     INSTALL_RES="$INSTALL_RES\n    vim install faild"
   fi
+  cd ../
 fi
 
 if [ $FLAG_TMUX -eq 1 ]; then
-  ./tmux_setting/install.sh
+  cd ./tmux_setting/
+  ./install.sh
   if [ $? -eq 0 ]; then
     INSTALL_RES="$INSTALL_RES\n    tmux install success"
   else
     INSTALL_RES="$INSTALL_RES\n    tmux install faild"
   fi
+  cd ../
 fi
 
 if [ $FLAG_SHELL -eq 1 ]; then
+  cd ./shell_setting/
   case $SHELL_TYPE in
     "bash" )
-      ./shell_setting/install.sh
+      ./install.sh
       if [ $? -eq 0 ]; then
         INSTALL_RES="$INSTALL_RES\n    shell install success"
       else
@@ -103,6 +109,7 @@ if [ $FLAG_SHELL -eq 1 ]; then
       INSTALL_RES="$INSTALL_RES\n    $SHELL_TYPE unsupported shell type"
       ;;
   esac
+  cd ../
 fi
 
 echo -e "$INSTALL_RES"

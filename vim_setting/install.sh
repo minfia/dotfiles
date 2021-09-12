@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-COMPANY_FLAG=
+COMPANY_FLAG=0
 
 for OPT in "$@"
 do
@@ -128,6 +128,7 @@ fi
 # vimの設定をインストール
 cp .vimrc ~/
 cp -r .vim/ ~/
+mkdir ~/.vim/rc
 if [ $COMPANY_FLAG -eq 1 ]; then
   cp ./toml/company/*.* ~/.vim/rc/
 else
