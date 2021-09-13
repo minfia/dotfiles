@@ -6,14 +6,15 @@ PROGRAM=$(basename $0)
 
 function usage()
 {
-  echo "Usage $PROGRAM [Options]..."
-  echo -e "\tThis script is dotfiles install."
+  echo "Usage: $PROGRAM [Options]..."
+  echo "  This script is dotfiles installer."
   echo "Options:"
-  echo -e "\tvim [company]  install normal vim setting"
-  echo -e "\ttmux          install tmux setting"
-  echo -e "\tshell TYPE    install shell setting"
-  echo -e "\t--w3m         install w3m setting"
-  echo -e "\t-h, --help    show help"
+  echo "  --vim [company]  install vim setting"
+  echo "  --tmux           install tmux setting"
+  echo "  --shell TYPE     install shell setting"
+  echo "  --w3m            install w3m setting"
+  echo "  --git            install git setting"
+  echo "  -h, --help       show help"
 }
 
 
@@ -27,6 +28,7 @@ FLAG_VIM=0
 FLAG_TMUX=0
 FLAG_SHELL=0
 FLAG_W3M=0
+FLAG_GIT=0
 
 
 VIM_TYPE=
@@ -62,6 +64,9 @@ do
       ;;
     --w3m )
       FLAG_W3M=1
+      ;;
+    --git )
+      FLAG_GIT=1
       ;;
     -h | --help )
       usage
@@ -124,6 +129,17 @@ if [ $FLAG_W3M -eq 1 ]; then
     INSTALL_RES="$INSTALL_RES\n    w3m install success"
   else
     INSTALL_RES="$INSTALL_RES\n    w3m install faild"
+  fi
+  cd ../
+fi
+
+if [ $FLAG_GIT -eq 1 ]; then
+  cd ./git_setting/
+  ./install.sh
+  if [ $? -eq 0 ]; then
+    INSTALL_RES="$INSTALL_RES\n    git install success"
+  else
+    INSTALL_RES="$INSTALL_RES\n    git install faild"
   fi
   cd ../
 fi

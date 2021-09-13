@@ -1,0 +1,10 @@
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore_global
+	quotePath = false
+[init]
+	defaultBranch = main
+[diff]
+	tool = vimdiff
+[alias]
+	co = checkout
