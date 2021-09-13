@@ -106,19 +106,12 @@ fi
 
 if [ $FLAG_SHELL -eq 1 ]; then
   cd ./shell_setting/
-  case $SHELL_TYPE in
-    "bash" )
-      ./install.sh
-      if [ $? -eq 0 ]; then
-        INSTALL_RES="$INSTALL_RES\n    shell install success"
-      else
-        INSTALL_RES="$INSTALL_RES\n    shell install faild"
-      fi
-      ;;
-    * )
-      INSTALL_RES="$INSTALL_RES\n    $SHELL_TYPE unsupported shell type"
-      ;;
-  esac
+  ./install.sh $SHELL_TYPE
+  if [ $? -eq 0 ]; then
+    INSTALL_RES="$INSTALL_RES\n    shell install success"
+  else
+    INSTALL_RES="$INSTALL_RES\n    shell install faild"
+  fi
   cd ../
 fi
 
