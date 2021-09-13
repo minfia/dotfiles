@@ -7,12 +7,16 @@
 * tmux
 * shell
   * bash
+* w3m
+* git
 
 
 ### 各README
 * [vim](vim_setting/README.md)
 * [tmux](tmux_setting/README.md)
 * [shell](shell_setting/README.md)
+* [w3m](w3m_setting/README.md)
+* [git](git_setting/README.md)
 
 
 ## インストール方法
