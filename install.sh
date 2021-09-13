@@ -12,6 +12,7 @@ function usage()
   echo -e "\tvim [company]  install normal vim setting"
   echo -e "\ttmux          install tmux setting"
   echo -e "\tshell TYPE    install shell setting"
+  echo -e "\t--w3m         install w3m setting"
   echo -e "\t-h, --help    show help"
 }
 
@@ -25,6 +26,7 @@ fi
 FLAG_VIM=0
 FLAG_TMUX=0
 FLAG_SHELL=0
+FLAG_W3M=0
 
 
 VIM_TYPE=
@@ -57,6 +59,9 @@ do
       SHELL_TYPE=$2
       FLAG_SHELL=1
       shift
+      ;;
+    --w3m )
+      FLAG_W3M=1
       ;;
     -h | --help )
       usage
@@ -109,6 +114,17 @@ if [ $FLAG_SHELL -eq 1 ]; then
       INSTALL_RES="$INSTALL_RES\n    $SHELL_TYPE unsupported shell type"
       ;;
   esac
+  cd ../
+fi
+
+if [ $FLAG_W3M -eq 1 ]; then
+  cd ./w3m_setting/
+  ./install.sh
+  if [ $? -eq 0 ]; then
+    INSTALL_RES="$INSTALL_RES\n    w3m install success"
+  else
+    INSTALL_RES="$INSTALL_RES\n    w3m install faild"
+  fi
   cd ../
 fi
 

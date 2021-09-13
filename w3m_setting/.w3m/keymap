@@ -1,0 +1,12 @@
+keymap C-c CHARSET
+keymap C-e UP
+keymap C-y DOWN
+keymap C-d NEXT_PAGE
+keymap C-u PREV_PAGE
+keymap C-n NEXT_LINK
+keymap C-p PREV_LINK
+keymap N NEXT
+keymap B PREV
+keymap b PREV_WORD
+keymap w NEXT_WORD
+
