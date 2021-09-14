@@ -32,6 +32,8 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [easymotion/vim-easymotion](https://github.com/easymotion/vim-easymotion)
 * [alvan/vim-closetag](https://github.com/alvan/vim-closetag)
 * [cespare/vim-toml](https://github.com/cespare/vim-toml)
+* [markonm/traces.vim](https://github.com/markonm/traces.vim)
+* [skanehira/translate.vim](https://github.com/skanehira/translate.vim)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
 ## 対応言語
