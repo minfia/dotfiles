@@ -129,10 +129,10 @@ fi
 cp .vimrc ~/
 cp -r .vim/ ~/
 mkdir ~/.vim/rc
+
+cp ./toml/*.* ~/.vim/rc/
 if [ $COMPANY_FLAG -eq 1 ]; then
-  cp ./toml/company/*.* ~/.vim/rc/
-else
-  cp ./toml/*.* ~/.vim/rc/
+  cp -f ./toml/company/*.* ~/.vim/rc/
 fi
 mkdir ~/.vim/plugin
 
