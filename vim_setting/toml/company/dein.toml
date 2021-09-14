@@ -14,6 +14,14 @@
 # | hook_post_update | プラグインが更新された直後                   |    OK    |    OK   |
 # | hook_done_update | プラグイン全ての更新が終わった直後           |    OK    |    OK   |
 
+# | 遅延ロード |            ロードされるタイミング            |                            例                             |
+# | on_cmd     | コマンドが実行される時にロード               | on_cmd = ['Command'] / on_cmd = ['Command1', 'Command2']  |
+# | on_event   | イベントが実行される時にロード               | on_event = ['Event'] / on_event = ['Event1', 'Event2']    |
+# | on_func    | 関数が実行される時にロード                   | on_func = ['Func'] / on_func = ['Func1', 'Func2']         |
+# | on_ft      | 指定されたファイルタイプの時にロード         | on_ft = ['FileType'] / on_ft = ['FileType1', 'FileType2'] |
+#                                                             | on_ft = ['ft'] / on_ft = ['ft1', 'ft2']                   |
+# | on_i       | インサートモード移行時にロード (0以外で有効) | on_i = 1 / on_i = 2                                       |
+
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
