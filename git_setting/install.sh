@@ -105,6 +105,21 @@ function set_package_management_system_at_distribution()
 
 
 
+# gitで使用するユーザ名/メールアドレス設定
+while [ "$KEY" != "y" ]
+do
+  echo -n "Please input user name: "
+  read USER_NAME
+  echo -n "Please input user email: "
+  read USER_EMAIL
+
+  echo "Is with this confiture alright? (y/n)"
+  echo "    user name : $USER_NAME"
+  echo "    user email: $USER_EMAIL"
+  read -s -n 1 KEY
+done
+
+
 check_distribution
 echo "The distribution for this system is '$DISTRIBUTOR'."
 set_package_management_system_at_distribution $DISTRIBUTOR
@@ -129,19 +144,6 @@ install_pkg $PKG_MNG_SYS "git"
 # gitの設定をインストール
 cp -r .git* ~/
 
-# gitで使用するユーザ名/メールアドレス設定
-while [ "$KEY" != "y" ]
-do
-  echo -n "Please input user name: "
-  read USER_NAME
-  echo -n "Please input user email: "
-  read USER_EMAIL
-
-  echo "Is with this confiture alright? (y/n)"
-  echo "    user name : $USER_NAME"
-  echo "    user email: $USER_EMAIL"
-  read -s -n 1 KEY
-done
 git config --global user.name "$USER_NAME"
 git config --global user.email "$USER_EMAIL"
 
