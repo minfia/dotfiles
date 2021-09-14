@@ -7,7 +7,8 @@ fi
 
 # user alias setting
 alias ll='ls -alF'
-alias la='ls -a'
+alias la='ls -A'
+alias lla='ls -lA'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
