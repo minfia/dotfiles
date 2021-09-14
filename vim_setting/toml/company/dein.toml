@@ -32,20 +32,7 @@ repo = 'wsdjeg/dein-ui.vim'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
-# Markdownプラグイン
-[[plugins]]
-repo = 'tpope/vim-markdown'
-
-# Markdownプラグイン
-[[plugins]]
-repo = 'kannokanno/previm'
-hook_add = '''
-    nnoremap <silent> <Leader>p :PrevimOpen<CR>
-    let g:geprevim_enable_realtime = 1
-    let g:previm_updatetime = 100
-'''
-
-# Markdownプラグイン
+# ブラウザオープンプラグイン
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 
@@ -87,15 +74,4 @@ hook_add = '''
 # カーソル移動プラグイン
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
-
-# tomlファイルシンタックスプラグイン
-[[plugins]]
-repo = 'cespare/vim-toml'
-
-# タグ補間プラグイン
-[[plugins]]
-repo = 'alvan/vim-closetag'
-hock_add = '''
-    let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.erb, *.php, *.vue'
-'''
 

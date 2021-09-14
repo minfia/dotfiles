@@ -62,10 +62,19 @@ if dein#load_state(s:dein_dir)
 
   " tomlファイル読み込み
   let g:toml_dir=expand('~/.vim/rc')
-  let s:toml=g:toml_dir . '/dein.toml'
+  let s:dein_toml=g:toml_dir . '/dein.toml'
 
   " tomlを読み込み、キャッシュ
-  call dein#load_toml(s:toml, {'lazy': 0})
+  call dein#load_toml(s:dein_toml, {'lazy': 0})
+
+  " 遅延読み込み
+  let s:markdown_toml=g:toml_dir . '/markdown.toml'
+  let s:toml_toml=g:toml_dir . '/toml.toml'
+  let s:web_toml=g:toml_dir . '/web.toml'
+
+  call dein#load_toml(s:markdown_toml, {'lazy': 1})
+  call dein#load_toml(s:toml_toml, {'lazy': 1})
+  call dein#load_toml(s:web_toml, {'lazy': 1})
 
   call dein#end()
   call dein#save_state()
