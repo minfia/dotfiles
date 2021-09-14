@@ -75,3 +75,11 @@ hook_add = '''
 [[plugins]]
 repo = 'easymotion/vim-easymotion'
 
+# 置換プレビュープラグイン
+[[plugins]]
+repo = 'markonm/traces.vim'
+
+# Google翻訳プラグイン
+[[plugins]]
+repo = 'skanehira/translate.vim'
+
