@@ -17,6 +17,9 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+[[plugins]]
+repo = 'wsdjeg/dein-ui.vim'
+
 # Gitプラグイン
 [[plugins]]
 repo = 'tpope/vim-fugitive'
