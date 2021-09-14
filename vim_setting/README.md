@@ -1,11 +1,11 @@
 # vim setting
 vimの設定ファイル群  
-対応バージョン: 8.0以上
+対応バージョン: 8.2以上
 
-# 説明
+## 説明
 vimを快適に使えるように設定を行うファイルを作成し、インストーラーとして提供する。
 
-### 機能
+## 機能
 1. 行番号表示
 2. タイトル表示
 3. カラースキーム
@@ -16,7 +16,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 8. Beep音の無効化
 9. プラグインのインストール
 
-### プラグイン一覧
+## プラグイン一覧
 * [Shougo/dein](https://github.com/Shougo/dein.vim)
 * [tpope/fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-markdown](https://github.com/tpope/vim-markdown)
@@ -30,9 +30,10 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [scrooloose/nerdtree](https://github.com/preservim/nerdtree)
 * [easymotion/vim-easymotion](https://github.com/easymotion/vim-easymotion)
 * [alvan/vim-closetag](https://github.com/alvan/vim-closetag)
+* [cespare/vim-toml](https://github.com/cespare/vim-toml)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
-### 対応言語
+## 対応言語
 * シェルスクリプト
 * C/C++
 * Python
@@ -40,7 +41,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * HTML
 * CSS
 
-### 対応ファイル形式
+## 対応ファイル形式
 * .sh
 * .c
 * .cpp
@@ -51,7 +52,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * .css
 * .html
 
-### インストールに必要な環境
+## インストールに必要な環境
 以下はインストールされていなければ、自動でインストールする。
 * curl
 * wget
@@ -69,7 +70,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * lsb-release
 
 
-# インストール
+## インストール
 ```bash
 $ ./install.sh
 ```

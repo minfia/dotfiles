@@ -11,7 +11,7 @@
 * git
 
 
-### 各README
+## 各README
 * [vim](vim_setting/README.md)
 * [tmux](tmux_setting/README.md)
 * [shell](shell_setting/README.md)
@@ -22,7 +22,7 @@
 ## インストール方法
 インストールする設定をオプションで指定する  
 ex ) vim + shell(bash)  
-```shell
+```bash
 $ ./install.sh --vim --shell bash
 ```
 
