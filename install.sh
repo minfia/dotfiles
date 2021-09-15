@@ -44,7 +44,6 @@ do
       elif [[ "$2" == "company" ]]; then
         FLAG_VIM=1
         VIM_TYPE="company"
-        shift
       else
         echo "vim install argument error."
         exit 1
@@ -60,7 +59,6 @@ do
       fi
       SHELL_TYPE=$2
       FLAG_SHELL=1
-      shift
       ;;
     --w3m )
       FLAG_W3M=1
