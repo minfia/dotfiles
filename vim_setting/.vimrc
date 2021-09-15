@@ -126,6 +126,12 @@ augroup memory_cursor_pos
     \ exe "normal g`\"" | endif
 augroup END
 
+"## Quickfixのみの場合は、自動で閉じる
+augroup quickfix_auto_close
+    autocmd!
+    autocmd WinEnter * if (winnr('$') == 1) && (getbufvar(winbufnr(0), '&buftype')) == 'quickfix' | quit | endif
+augroup END
+
 
 "# 外見設定 ---------------------------------------------------------------------------------------
 scriptencoding utf-8
