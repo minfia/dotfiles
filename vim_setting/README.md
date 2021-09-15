@@ -57,21 +57,24 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 
 ## インストールに必要な環境
 以下はインストールされていなければ、自動でインストールする。
-* curl
-* wget
-* gcc
-* make
-* libncurses5-dev
-* clang-tools
-* git
-* python3
-* python3-pip
-* python3-venv
-* python-language-server
+* vim
+* dein
+    * curl
+    * git
+* GNU Global
+    * wget
+    * gcc
+    * make
+    * libncurses5-dev
+* Language Server
+    * clangd
+    * python-language-server
+        * python3
+        * python3-pip
+        * python3-venv
 
 以下は各自でインストールする。
 * lsb-release
-
 
 ## インストール
 ```bash
