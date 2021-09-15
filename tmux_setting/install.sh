@@ -118,7 +118,11 @@ fi
 
 # 環境構築に必要なパッケージのインストール
 install_pkg $PKG_MNG_SYS "tmux"
+install_pkg $PKG_MNG_SYS "git"
 
+
+# Tmux Plugin Managerのインストール
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # tmuxの設定をインストール
 cp .tmux.conf ~/

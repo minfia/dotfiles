@@ -98,6 +98,9 @@ if [ $FLAG_TMUX -eq 1 ]; then
   ./install.sh
   if [ $? -eq 0 ]; then
     INSTALL_RES="$INSTALL_RES\n    tmux install success"
+    INSTALL_RES="$INSTALL_RES\n        Prefix+I: plugins install"
+    INSTALL_RES="$INSTALL_RES\n        Prefix+U: plugins upgrade"
+    INSTALL_RES="$INSTALL_RES\n        Prefix+alt+u: plugins uninstall"
   else
     INSTALL_RES="$INSTALL_RES\n    tmux install faild"
   fi
