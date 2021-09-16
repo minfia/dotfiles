@@ -22,11 +22,36 @@
 #                                                             | on_ft = ['ft'] / on_ft = ['ft1', 'ft2']                   |
 # | on_i       | インサートモード移行時にロード (0以外で有効) | on_i = 1 / on_i = 2                                       |
 
-# タグクローズ補間
+# ブラウザオープン
 [[plugins]]
-repo = 'alvan/vim-closetag'
-hock_add = '''
-    let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.erb, *.php, *.vue'
-'''
-on_ft = ['html']
+repo = 'tyru/open-browser.vim'
 
+# vim上でGit操作
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+# 閉じ補完
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+# ツリー表示
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+    nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
+    nnoremap <silent> <Leader>ff :NERDTreeFocus<CR>
+    let g:NERDTreeIgnore = ['\.o$', '\.git$']
+    let g:NERDTreeShowHidden = 1
+'''
+
+# カーソル移動
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+
+# 置換プレビュー
+[[plugins]]
+repo = 'markonm/traces.vim'
+
+# Google翻訳
+[[plugins]]
+repo = 'skanehira/translate.vim'

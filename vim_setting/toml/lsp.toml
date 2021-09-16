@@ -22,11 +22,27 @@
 #                                                             | on_ft = ['ft'] / on_ft = ['ft1', 'ft2']                   |
 # | on_i       | インサートモード移行時にロード (0以外で有効) | on_i = 1 / on_i = 2                                       |
 
-# タグクローズ補間
+# LSP
 [[plugins]]
-repo = 'alvan/vim-closetag'
-hock_add = '''
-    let g:closetag_filenames = '*.html, *.xhtml, *.phtml, *.erb, *.php, *.vue'
-'''
-on_ft = ['html']
+repo = 'prabirshrestha/vim-lsp'
+hook_add = '''
+    let g:lsp_text_edit_enabled = 0
+    let g:lsp_textprop_enabled = 1
+    let g:lsp_diagnostics_enabled = 1
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:lsp_document_highlight_enabled = 1
+    let g:lsp_virtual_text_enabled = 0
 
+'''
+
+# vim-lsp設定補助
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+
+# 非同期で補完表示
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+
+# vim-lspと連携し補完データをasyncompleteに渡す
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'

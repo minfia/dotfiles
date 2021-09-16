@@ -22,68 +22,10 @@
 #                                                             | on_ft = ['ft'] / on_ft = ['ft1', 'ft2']                   |
 # | on_i       | インサートモード移行時にロード (0以外で有効) | on_i = 1 / on_i = 2                                       |
 
+# プラグインマネージャ
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+# プラグインアップデート補助
 [[plugins]]
 repo = 'wsdjeg/dein-ui.vim'
-
-# ブラウザオープンプラグイン
-[[plugins]]
-repo = 'tyru/open-browser.vim'
-
-# Gitプラグイン
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-
-# LSPプラグイン
-[[plugins]]
-repo = 'prabirshrestha/vim-lsp'
-hook_add = '''
-    let g:lsp_text_edit_enabled = 0
-    let g:lsp_textprop_enabled = 1
-    let g:lsp_diagnostics_enabled = 1
-    let g:lsp_diagnostics_echo_cursor = 1
-    let g:lsp_document_highlight_enabled = 1
-    let g:lsp_virtual_text_enabled = 0
-
-'''
-
-# LSPプラグイン
-[[plugins]]
-repo = 'mattn/vim-lsp-settings'
-
-# 補完プラグイン(非同期)
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete.vim'
-
-# 補完プラグイン(非同期)
-[[plugins]]
-repo = 'prabirshrestha/asyncomplete-lsp.vim'
-
-# 閉じ補完プラグイン
-[[plugins]]
-repo = 'cohama/lexima.vim'
-
-# ツリー表示プラグイン
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-    nnoremap <silent> <Leader>f :NERDTreeToggle<CR>
-    nnoremap <silent> <Leader>ff :NERDTreeFocus<CR>
-    let g:NERDTreeIgnore = ['\.o$', '\.git$']
-    let g:NERDTreeShowHidden = 1
-'''
-
-# カーソル移動プラグイン
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
-
-# 置換プレビュープラグイン
-[[plugins]]
-repo = 'markonm/traces.vim'
-
-# Google翻訳プラグイン
-[[plugins]]
-repo = 'skanehira/translate.vim'
-

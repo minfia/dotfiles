@@ -22,12 +22,12 @@
 #                                                             | on_ft = ['ft'] / on_ft = ['ft1', 'ft2']                   |
 # | on_i       | インサートモード移行時にロード (0以外で有効) | on_i = 1 / on_i = 2                                       |
 
-# Markdownプラグイン
+# Markdownフォーマット
 [[plugins]]
 repo = 'tpope/vim-markdown'
 on_ft = ["markdown", "pandoc.markdown", "rmd"]
 
-# Markdownプラグイン
+# Markdownのプレビュー
 [[plugins]]
 repo = 'kannokanno/previm'
 hook_add = '''

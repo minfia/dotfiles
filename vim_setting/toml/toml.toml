@@ -22,7 +22,7 @@
 #                                                             | on_ft = ['ft'] / on_ft = ['ft1', 'ft2']                   |
 # | on_i       | インサートモード移行時にロード (0以外で有効) | on_i = 1 / on_i = 2                                       |
 
-# tomlファイルシンタックスプラグイン
+# tomlファイルシンタックス
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = ['toml']
