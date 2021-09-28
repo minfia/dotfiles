@@ -35,52 +35,57 @@ VIM_TYPE=
 SHELL_TYPE=
 
 
-for OPT in "$@"
-do
-  case $OPT in
-    --vim )
-      if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
-        FLAG_VIM=1
-      elif [[ "$2" == "company" ]]; then
-        FLAG_VIM=1
-        VIM_TYPE="company"
-      else
-        echo "vim install argument error."
-        exit 1
-      fi
-      ;;
-    --tmux )
-      FLAG_TMUX=1
-      ;;
-    --shell )
-      if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
-        echo "shell install argument error."
-        exit 1
-      fi
-      SHELL_TYPE=$2
-      FLAG_SHELL=1
-      ;;
-    --w3m )
-      FLAG_W3M=1
-      ;;
-    --git )
-      FLAG_GIT=1
-      ;;
-    -h | --help )
-      usage
-      exit 0
-      ;;
-  esac
-  shift
-done
+function parse_args()
+{
+  while [ -n "$1" ]
+  do
+    case $1 in
+      --vim )
+        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
+          FLAG_VIM=1
+        elif [[ "$2" == "company" ]]; then
+          FLAG_VIM=1
+          VIM_TYPE="company"
+          shift
+        else
+          echo "vim install argument error."
+          exit 1
+        fi
+        ;;
+      --tmux )
+        FLAG_TMUX=1
+        ;;
+      --shell )
+        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
+          echo "shell install argument error."
+          exit 1
+        fi
+        SHELL_TYPE=$2
+        FLAG_SHELL=1
+        shift
+        ;;
+      --w3m )
+        FLAG_W3M=1
+        ;;
+      --git )
+        FLAG_GIT=1
+        ;;
+      -h | --help )
+        usage
+        exit 0
+        ;;
+    esac
+    shift
+  done
+}
 
+parse_args $@
 
 # 以下、インストール処理
 
 INSTALL_RES="install result:"
 
 if [ $FLAG_VIM -eq 1 ]; then
-
   cd ./vim_setting/
   ./install.sh $VIM_TYPE
   if [ $? -eq 0 ]; then
