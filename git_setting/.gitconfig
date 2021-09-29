@@ -2,6 +2,7 @@
 	editor = vim
 	excludesfile = ~/.gitignore_global
 	quotePath = false
+	longpaths = true
 [init]
 	defaultBranch = main
 [diff]
