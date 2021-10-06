@@ -52,6 +52,14 @@ repo = 'easymotion/vim-easymotion'
 [[plugins]]
 repo = 'markonm/traces.vim'
 
+# 選択範囲を検索
+[[plugins]]
+repo = 'thinca/vim-visualstar'
+hook_add = '''
+    map * <Plug>(visualstar-*)N
+    map # <Plug>(visualstar-#)N
+'''
+
 # Google翻訳
 [[plugins]]
 repo = 'skanehira/translate.vim'

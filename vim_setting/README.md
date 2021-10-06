@@ -33,6 +33,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [alvan/vim-closetag](https://github.com/alvan/vim-closetag)
 * [cespare/vim-toml](https://github.com/cespare/vim-toml)
 * [markonm/traces.vim](https://github.com/markonm/traces.vim)
+* [thinca/vim-visualstar](https://github.com/thinca/vim-visualstar)
 * [skanehira/translate.vim](https://github.com/skanehira/translate.vim)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
