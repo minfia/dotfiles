@@ -1,3 +1,6 @@
+# vim shell
+shopt -s expand_aliases
+
 # key unbind
 if [[ -t 0  ]]; then
   stty stop undef

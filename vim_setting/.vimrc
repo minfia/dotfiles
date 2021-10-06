@@ -215,3 +215,7 @@ set mouse=a " マウスを使用可能にする
 set nrformats-=octal " 8進数表示を無効化
 set history=100 " コマンド履歴の数を変更
 set visualbell  " Beep音を消す
+" vimの:!コマンド実行でシェルのエイリアスを使えるようにする
+if glob("~/.bash_aliases") != ""
+    let $BASH_ENV = "~/.bash_aliases"
+endif
