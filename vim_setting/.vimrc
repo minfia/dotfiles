@@ -201,6 +201,7 @@ set statusline+=[%02v:%l/%L]       " カーソル位置の桁数と行列、フ�
 
 "# 検索関係 ---------------------------------------------------------------------------------------
 set hlsearch   " 検索文字列をハイライトにする
+set incsearch  " インクリメンタルサーチを有効にする
 set ignorecase " 大文字と小文字を区別しない
 set wrapscan   " 末尾まで検索が終わったら次の検索で先頭に戻る
 noremap * *N   " 検索時に次のワードに飛ばさない
@@ -216,5 +217,3 @@ set mouse=a " マウスを使用可能にする
 set nrformats-=octal " 8進数表示を無効化
 set history=100 " コマンド履歴の数を変更
 set visualbell  " Beep音を消す
-
-
