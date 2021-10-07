@@ -34,6 +34,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [cespare/vim-toml](https://github.com/cespare/vim-toml)
 * [markonm/traces.vim](https://github.com/markonm/traces.vim)
 * [thinca/vim-visualstar](https://github.com/thinca/vim-visualstar)
+* [Yggdroot/indentLine](https://github.com/Yggdroot/indentLine)
 * [skanehira/translate.vim](https://github.com/skanehira/translate.vim)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
