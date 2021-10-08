@@ -9,8 +9,50 @@ do
     company )
       COMPANY_FLAG=1;
       ;;
+    * )
+      echo "option error. (input: $OPT)"
+      exit 1
+      ;;
   esac
 done
+
+function main()
+{
+  check_distribution
+  echo "The distribution for this system is '$DISTRIBUTOR'."
+  set_package_management_system_at_distribution $DISTRIBUTOR
+
+
+  if [ -e ~/.vimrc ]; then
+    local DATE_NOW=`date "+%Y%m%d_%H%M%S"`
+    # 既に.vimrcが存在する場合は、バックアップをとる
+    mv ~/.vimrc ~/.vimrc.backup_$DATE_NOW
+    mv ~/.vim ~/.vim.backup_$DATE_NOW
+  fi
+  install_vim_setting
+
+  package_install
+
+  install_gnu_global
+
+  # deinのインストール
+  if [ ! -d ~/.vim/dein ]; then
+    # deinがインストールされていなければインストール
+    mkdir ~/.vim/dein
+    curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > ./installer.sh
+    sh ./installer.sh ~/.vim/dein
+    rm -f installer.sh
+  fi
+
+  # プラグインのインストール
+  vim -c ":q"
+  if [ $COMPANY_FLAG -eq 0 ]; then
+    cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
+    ./install.sh
+  fi
+
+  exit 0
+}
 
 DISTRIBUTOR=
 PKG_MNG_SYS=
@@ -113,69 +155,51 @@ function set_package_management_system_at_distribution()
   esac
 }
 
-
-check_distribution
-echo "The distribution for this system is '$DISTRIBUTOR'."
-set_package_management_system_at_distribution $DISTRIBUTOR
-
-if [ -e ~/.vimrc ]; then
-  DATE_NOW=`date "+%Y%m%d_%H%M%S"`
-  # 既に.vimrcが存在する場合は、バックアップをとる
-  mv ~/.vimrc ~/.vimrc.backup_$DATE_NOW
-  mv ~/.vim ~/.vim.backup_$DATE_NOW
-fi
-
-# vimの設定をインストール
-cp .vimrc ~/
-cp -r .vim/ ~/
-mkdir ~/.vim/rc
-
-cp ./toml/*.* ~/.vim/rc/
-if [ $COMPANY_FLAG -eq 1 ]; then
-  cp -f ./toml/company/*.* ~/.vim/rc/
-fi
-mkdir ~/.vim/plugin
-
 # 環境構築に必要なパッケージのインストール
-install_pkg $PKG_MNG_SYS "curl"
-install_pkg $PKG_MNG_SYS "wget"
-install_pkg $PKG_MNG_SYS "gcc"
-install_pkg $PKG_MNG_SYS "make"
-install_pkg $PKG_MNG_SYS "libncurses5-dev"
-install_pkg $PKG_MNG_SYS "clangd"
-install_pkg $PKG_MNG_SYS "vim"
-install_pkg $PKG_MNG_SYS "git"
-install_pkg $PKG_MNG_SYS "python3"
-install_pkg $PKG_MNG_SYS "python3-pip"
-install_pkg $PKG_MNG_SYS "python3-venv"
-install_pkg "pip3" "python-language-server"
-
-# deinのインストール
-if [ ! -d ~/.vim/dein ]; then
-  # deinがインストールされていなければインストール
-  mkdir ~/.vim/dein
-  curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > ./installer.sh
-  sh ./installer.sh ~/.vim/dein
-  rm -f installer.sh
-fi
+function package_install()
+{
+  install_pkg $PKG_MNG_SYS "curl"
+  install_pkg $PKG_MNG_SYS "wget"
+  install_pkg $PKG_MNG_SYS "gcc"
+  install_pkg $PKG_MNG_SYS "make"
+  install_pkg $PKG_MNG_SYS "libncurses5-dev"
+  install_pkg $PKG_MNG_SYS "clangd"
+  install_pkg $PKG_MNG_SYS "vim"
+  install_pkg $PKG_MNG_SYS "git"
+  install_pkg $PKG_MNG_SYS "python3"
+  install_pkg $PKG_MNG_SYS "python3-pip"
+  install_pkg $PKG_MNG_SYS "python3-venv"
+  install_pkg "pip3" "python-language-server"
+}
 
 # Gnu GLOBALのインストール
-GGLOBAL_VER=6.6.5
-wget http://tamacom.com/global/global-$GGLOBAL_VER.tar.gz
-tar zxf global-$GGLOBAL_VER.tar.gz
-cd global-$GGLOBAL_VER/
-./configure --disable-gtagscscope
-make
-sudo make install
-cp -f ./gtags.vim ~/.vim/plugin/
-cd ../
-rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
+function install_gnu_global()
+{
+  local GGLOBAL_VER=6.6.5
+  wget http://tamacom.com/global/global-$GGLOBAL_VER.tar.gz
+  tar zxf global-$GGLOBAL_VER.tar.gz
+  cd global-$GGLOBAL_VER/
+  ./configure --disable-gtagscscope
+  make
+  sudo make install
+  cp -f ./gtags.vim ~/.vim/plugin/
+  cd ../
+  rm -rf global-$GGLOBAL_VER/ global-$GGLOBAL_VER.tar.gz
+}
 
-# プラグインのインストール
-vim -c ":q"
-if [ $COMPANY_FLAG -eq 0 ]; then
-  cd ~/.vim/dein/repos/github.com/iamcco/markdown-preview.nvim/app
-  ./install.sh
-fi
+# vimの設定をインストール
+function install_vim_setting()
+{
+  cp .vimrc ~/
+  cp -r .vim/ ~/
+  mkdir ~/.vim/rc
 
-exit 0
+  cp ./toml/*.* ~/.vim/rc/
+  if [ $COMPANY_FLAG -eq 1 ]; then
+    cp -f ./toml/company/*.* ~/.vim/rc/
+  fi
+  mkdir ~/.vim/plugin
+}
+
+
+main
