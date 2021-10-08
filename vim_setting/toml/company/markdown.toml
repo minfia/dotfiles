@@ -32,8 +32,7 @@ on_ft = ["markdown", "pandoc.markdown", "rmd"]
 repo = 'kannokanno/previm'
 hook_add = '''
     nnoremap <silent> <Leader>p :PrevimOpen<CR>
-    let g:geprevim_enable_realtime = 1
-    let g:previm_updatetime = 100
+    let g:previm_enable_realtime = 1
 '''
 on_ft = ["markdown", "pandoc.markdown", "rmd"]
 
