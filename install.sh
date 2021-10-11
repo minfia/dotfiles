@@ -14,6 +14,7 @@ function usage()
   echo "  --shell TYPE     install shell setting"
   echo "  --w3m            install w3m setting"
   echo "  --git            install git setting"
+  echo "  --clean          clean backup file(s)"
   echo "  -h, --help       show help"
 }
 
@@ -69,6 +70,11 @@ function parse_args()
         ;;
       --git )
         FLAG_GIT=1
+        ;;
+      --clean )
+        rm -rf ~/.*.backup*
+        echo "clean done."
+        exit 0
         ;;
       -h | --help )
         usage

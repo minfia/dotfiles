@@ -48,7 +48,7 @@ BASH_ALIASES=~/.bash_aliases
 if [ -e $BASH_ALIASES ]; then
   DATE_NOW=`date "+%Y%m%d_%H%M%S"`
   # 既に.bash_aliasがある場合は、バックアップを取る
-  mv $BASH_ALIASES ${BASH_ALIASES}_${DATE_NOW}
+  mv $BASH_ALIASES ${BASH_ALIASES}.backup_${DATE_NOW}
 fi
 cp ./.bash_aliases ~/
 
