@@ -9,7 +9,11 @@ function usage()
   echo "Usage: $PROGRAM [Options]..."
   echo "  This script is dotfiles installer."
   echo "Options:"
-  echo "  --vim [company]  install vim setting"
+  echo "  --vim [Option]   install vim setting"
+  echo "                   If selected multiple option valid first option"
+  echo "                   Option:"
+  echo "                     company"
+  echo "                     no-lang"
   echo "  --tmux           install tmux setting"
   echo "  --shell TYPE     install shell setting"
   echo "  --w3m            install w3m setting"
@@ -48,6 +52,9 @@ function parse_args()
           FLAG_VIM=1
           VIM_TYPE="company"
           shift
+        elif [[ "$2" == "no-lang" ]]; then
+          FLAG_VIM=1
+          VIM_TYPE="no-lang"
         else
           echo "vim install argument error."
           exit 1
