@@ -88,11 +88,15 @@ function check_distribution()
 }
 
 # ディストリビューションからパッケージ管理システムを設定する
+# $1-ディストリビューション名
 function set_package_management_system_at_distribution()
 {
   case "$1" in
     "Ubuntu" | "Debian" )
       PKG_MNG_SYS="apt"
+      if [ "$1" == "Ubuntu" ]; then
+        install_pkg $PKG_MNG_SYS "software-properties-common"
+      fi
       ;;
     * )
       echo "Not supported distribution and package management system."
@@ -101,3 +105,37 @@ function set_package_management_system_at_distribution()
   esac
 }
 
+# PPAの追加
+# $1-追加するリポジトリ(例: ppa:git-core/ppaなら、git-coreの部分)のリスト
+# 0: 成功, 1: 失敗 2: ディストリビューションエラー
+function add_ppa()
+{
+  if [ "$DISTRIBUTOR" != "Ubuntu" ]; then
+    return 2
+  fi
+
+  local PPA_LIST=($@)
+  local PPA_LIST_SIZE=${#PPA_LIST[@]}
+
+  if [ $PPA_LIST_SIZE -eq 0 ]; then
+    return 1
+  fi
+
+  local PPA_LIST_DIR=/var/lib/apt/lists/
+  local PPA_LAUNCHPAD_BASE_NAME=ppa.launchpad.net_
+  local ADD_FLG=0
+
+  for ((i=0; i<$PPA_LIST_SIZE; i++)); do
+    ls $PPA_LIST_DIR$PPA_LAUNCHPAD_BASE_NAME${PPA_LIST[i]}* > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      sudo add-apt-repository -y ppa:${PPA_LIST[i]}/ppa
+      ADD_FLG=1
+    fi
+  done
+
+  if [ $ADD_FLG -ne 0 ]; then
+    sudo apt update
+  fi
+
+  return 0
+}

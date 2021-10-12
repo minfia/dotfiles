@@ -7,6 +7,13 @@ check_distribution
 echo "The distribution for this system is '$DISTRIBUTOR'."
 set_package_management_system_at_distribution $DISTRIBUTOR
 
+PPA_LIST=
+add_ppa ${PPA_LIST[@]}
+if [ $? -eq 1 ]; then
+  echo "PPA error"
+  exit 1
+fi
+
 # 環境構築に必要なパッケージのインストール
 install_pkg $PKG_MNG_SYS "bash-completion"
 

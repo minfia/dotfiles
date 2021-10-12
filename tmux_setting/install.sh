@@ -7,6 +7,13 @@ check_distribution
 echo "The distribution for this system is '$DISTRIBUTOR'."
 set_package_management_system_at_distribution $DISTRIBUTOR
 
+PPA_LIST=
+add_ppa ${PPA_LIST[@]}
+if [ $? -eq 1 ]; then
+  echo "PPA error"
+  exit 1
+fi
+
 if [ -e ~/.tmux.conf ]; then
   DATE_NOW=`date "+%Y%m%d_%H%M%S"`
   # 既に.tmux.confが存在する場合は、バックアップをとる

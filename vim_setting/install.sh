@@ -27,6 +27,12 @@ function main()
   echo "The distribution for this system is '$DISTRIBUTOR'."
   set_package_management_system_at_distribution $DISTRIBUTOR
 
+  local PPA_LIST=("git-core" "jonathon")
+  add_ppa ${PPA_LIST[@]}
+  if [ $? -eq 1 ]; then
+    echo "PPA error"
+    exit 1
+  fi
 
   if [ -e ~/.vimrc ]; then
     local DATE_NOW=`date "+%Y%m%d_%H%M%S"`

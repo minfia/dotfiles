@@ -74,6 +74,11 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
         * python3
         * python3-pip
         * python3-venv
+* PPA (Ubuntu Only)
+    * software-properties-common
+    * PPA
+        * git-core (git)
+        * jonathon (vim)
 
 以下は各自でインストールする。
 * lsb-release
