@@ -22,7 +22,7 @@ check_distribution
 echo "The distribution for this system is '$DISTRIBUTOR'."
 set_package_management_system_at_distribution $DISTRIBUTOR
 
-PPA_LIST=("git-core")
+PPA_LIST=("git-core/ppa")
 add_ppa ${PPA_LIST[@]}
 if [ $? -eq 1 ]; then
   echo "PPA error"

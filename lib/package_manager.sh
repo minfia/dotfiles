@@ -63,6 +63,22 @@ function install_pkg()
   fi
 }
 
+# パッケージ管理システムからパッケージのアップグレード
+# $1-対象とするパッケージ管理システム
+function upgrade_pkg()
+{
+  if [ -z "$1" ]; then
+    echo "argument error.";
+    exit 1
+  fi
+
+  case "$1" in
+    "apt" )
+      sudo apt upgrade -y
+      ;;
+  esac
+}
+
 # ディストリビューションを確認
 function check_distribution()
 {
@@ -106,7 +122,7 @@ function set_package_management_system_at_distribution()
 }
 
 # PPAの追加
-# $1-追加するリポジトリ(例: ppa:git-core/ppaなら、git-coreの部分)のリスト
+# $1-追加するリポジトリ(例: ppa:git-core/ppaなら、git-core/ppaの部分)のリスト
 # 0: 成功, 1: 失敗 2: ディストリビューションエラー
 function add_ppa()
 {
@@ -128,13 +144,14 @@ function add_ppa()
   for ((i=0; i<$PPA_LIST_SIZE; i++)); do
     ls $PPA_LIST_DIR$PPA_LAUNCHPAD_BASE_NAME${PPA_LIST[i]}* > /dev/null 2>&1
     if [ $? -ne 0 ]; then
-      sudo add-apt-repository -y ppa:${PPA_LIST[i]}/ppa
+      sudo add-apt-repository -y ppa:${PPA_LIST[i]}
       ADD_FLG=1
     fi
   done
 
   if [ $ADD_FLG -ne 0 ]; then
     sudo apt update
+    upgrade_pkg "apt"
   fi
 
   return 0

@@ -27,7 +27,7 @@ function main()
   echo "The distribution for this system is '$DISTRIBUTOR'."
   set_package_management_system_at_distribution $DISTRIBUTOR
 
-  local PPA_LIST=("git-core" "jonathon")
+  local PPA_LIST=("git-core/ppa" "jonathonf/vim")
   add_ppa ${PPA_LIST[@]}
   if [ $? -eq 1 ]; then
     echo "PPA error"
