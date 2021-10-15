@@ -9,15 +9,16 @@ function usage()
   echo "Usage: $PROGRAM [Options]..."
   echo "  This script is dotfiles installer."
   echo "Options:"
+  echo "  --git            install git setting"
+  echo "  --shell TYPE     install shell setting"
+  echo "  --tmux           install tmux setting"
   echo "  --vim [Option]   install vim setting"
   echo "                   If selected multiple option valid first option"
   echo "                   Option:"
   echo "                     company"
   echo "                     no-lang"
-  echo "  --tmux           install tmux setting"
-  echo "  --shell TYPE     install shell setting"
   echo "  --w3m            install w3m setting"
-  echo "  --git            install git setting"
+  echo ""
   echo "  --clean          clean backup file(s)"
   echo "  -h, --help       show help"
 }
@@ -98,13 +99,24 @@ parse_args $@
 
 INSTALL_RES="install result:"
 
-if [ $FLAG_VIM -eq 1 ]; then
-  cd ./vim_setting/
-  ./install.sh $VIM_TYPE
+if [ $FLAG_GIT -eq 1 ]; then
+  cd ./git_setting/
+  ./install.sh
   if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    vim install success"
+    INSTALL_RES="$INSTALL_RES\n    git install success"
   else
-    INSTALL_RES="$INSTALL_RES\n    vim install faild"
+    INSTALL_RES="$INSTALL_RES\n    git install faild"
+  fi
+  cd ../
+fi
+
+if [ $FLAG_SHELL -eq 1 ]; then
+  cd ./shell_setting/
+  ./install.sh $SHELL_TYPE
+  if [ $? -eq 0 ]; then
+    INSTALL_RES="$INSTALL_RES\n    shell install success"
+  else
+    INSTALL_RES="$INSTALL_RES\n    shell install faild"
   fi
   cd ../
 fi
@@ -123,13 +135,13 @@ if [ $FLAG_TMUX -eq 1 ]; then
   cd ../
 fi
 
-if [ $FLAG_SHELL -eq 1 ]; then
-  cd ./shell_setting/
-  ./install.sh $SHELL_TYPE
+if [ $FLAG_VIM -eq 1 ]; then
+  cd ./vim_setting/
+  ./install.sh $VIM_TYPE
   if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    shell install success"
+    INSTALL_RES="$INSTALL_RES\n    vim install success"
   else
-    INSTALL_RES="$INSTALL_RES\n    shell install faild"
+    INSTALL_RES="$INSTALL_RES\n    vim install faild"
   fi
   cd ../
 fi
@@ -141,17 +153,6 @@ if [ $FLAG_W3M -eq 1 ]; then
     INSTALL_RES="$INSTALL_RES\n    w3m install success"
   else
     INSTALL_RES="$INSTALL_RES\n    w3m install faild"
-  fi
-  cd ../
-fi
-
-if [ $FLAG_GIT -eq 1 ]; then
-  cd ./git_setting/
-  ./install.sh
-  if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    git install success"
-  else
-    INSTALL_RES="$INSTALL_RES\n    git install faild"
   fi
   cd ../
 fi
