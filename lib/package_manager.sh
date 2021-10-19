@@ -123,7 +123,7 @@ function set_package_management_system_at_distribution()
 
 # PPAの追加
 # $1-追加するリポジトリ(例: ppa:git-core/ppaなら、git-core/ppaの部分)のリスト
-# 0: 成功, 1: 失敗 2: ディストリビューションエラー
+# 0: 成功, 1: 失敗 2: ディストリビューションエラー 3: 配列要素なし
 function add_ppa()
 {
   if [ "$DISTRIBUTOR" != "Ubuntu" ]; then
@@ -134,7 +134,7 @@ function add_ppa()
   local PPA_LIST_SIZE=${#PPA_LIST[@]}
 
   if [ $PPA_LIST_SIZE -eq 0 ]; then
-    return 1
+    return 3
   fi
 
   local PPA_LIST_DIR=/var/lib/apt/lists/
@@ -146,6 +146,8 @@ function add_ppa()
     if [ $? -ne 0 ]; then
       sudo add-apt-repository -y ppa:${PPA_LIST[i]}
       ADD_FLG=1
+    else
+      return 1
     fi
   done
 
