@@ -3,6 +3,7 @@
 	excludesfile = ~/.gitignore_global
 	quotePath = false
 	longpaths = true
+	whitespace = cr-at-eol
 [init]
 	defaultBranch = main
 [diff]
