@@ -69,6 +69,30 @@ hook_add = '''
     let g:indentLine_color_term = 166
 '''
 
+# カーソルにある単語のハイライト
+[[plugins]]
+repo = 'RRethy/vim-illuminate'
+hook_add = '''
+    let g:illuminate_delay = 300
+    let g:illuminate_highlightUnderCursor = 0
+"    augroup illuminate_augroup
+"        autocmd!
+"        autocmd VimEnter * hi link illuminatedWord Visual
+"    augroup END
+'''
+
+# 選択した文字に該当する文字をすべてハイライトにする
+[[plugins]]
+repo = 't9md/vim-quickhl'
+hook_add = '''
+    nmap <Space>m <Plug>(quickhl-manual-this)
+    xmap <Space>m <Plug>(quickhl-manual-this)
+    nmap <Space>r <Plug>(quickhl-manual-reset)
+    xmap <Space>r <Plug>(quickhl-manual-reset)
+    nmap <Space>c <Plug>(quickhl-manual-clear)
+    vmap <Space>c <Plug>(quickhl-manual-clear)
+'''
+
 # Google翻訳
 [[plugins]]
 repo = 'skanehira/translate.vim'

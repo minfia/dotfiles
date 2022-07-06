@@ -5,17 +5,23 @@ set t_RV=
 
 "# キー入力設定 -----------------------------------------------------------------------------------
 " プラグインのキーマップは、プラグイン設定で記入すること
-"-----------------------------------------------------------------------------------------------"
+"--------------------------------------------------------------------------------------------------"
 " Mapping
-"-----------------------------------------------------------------------------------------------"
-" コマンド(再帰/非再帰)       ノーマルモード 挿入モード コマンドラインモード ビジュアルモード
-" map  / noremap                     @            -              -                  @
-" nmap / nnoremap                    @            -              -                  -
-" imap / inoremap                    -            @              -                  -
-" cmap / cnoremap                    -            -              @                  -
-" vmap / vnoremap                    -            -              -                  @
-" map! / noremap!                    -            @              @                  -
-"-----------------------------------------------------------------------------------------------"
+"--------------------------------------------------------------------------------------------------"
+"     コマンド    |                              モード
+" 再帰 / 非再帰   | Normal Insert CommandLine Visual Select Operation Terminal Lang-Arg
+" map  / noremap  |   @      -         -        @      @        @        -        -
+" nmap / nnoremap |   @      -         -        -      -        -        -        -
+" map! / noremap! |   -      @         @        -      -        -        -        -
+" imap / inoremap |   -      @         -        -      -        -        -        -
+" cmap / cnoremap |   -      -         @        -      -        -        -        -
+" vmap / vnoremap |   -      -         -        @      @        -        -        -
+" xmap / xnoremap |   -      -         -        @      -        -        -        -
+" smap / snoremap |   -      -         -        -      @        -        -        -
+" omap / onoremap |   -      -         -        -      -        @        -        -
+" tmap / tnoremap |   -      -         -        -      -        -        @        -
+" lmap / lnoremap |   -      @         @        -      -        -        -        @
+"--------------------------------------------------------------------------------------------------"
 
 set backspace=indent,eol,start           " Backspaceキーの影響範囲に制限を設けない
 set whichwrap=b,s,h,l,<,>,[,]            " 行頭行末の左右移動で行をまたぐ
@@ -28,10 +34,6 @@ set timeoutlen=200                       " キーマップのキー入力のタ�
 "## Normal mode
 " xキーで文字を削除したときにヤンクしない
 nnoremap x "_x
-" H, M, Lで行移動しない
-nnoremap <S-h> <nop>
-nnoremap <S-m> <nop>
-nnoremap <S-l> <nop>
 
 "### GNU GLOBALの設定
 map <C-g> :Gtags
@@ -48,10 +50,10 @@ map <C-p> :cp<CR>
 " (入力後、Enterで)を自動入力する
 " inoremap (<Enter> ()<Left><CR><ESC><S-o>
 " Ctrl+hjklでカーソル移動
-imap <C-h> <Left>
-imap <C-j> <Down>
-imap <C-k> <Up>
-imap <C-l> <Right>
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
 
 
 "# プラグイン設定 ---------------------------------------------------------------------------------
@@ -164,9 +166,15 @@ syntax on           " 構文ハイライト有効
 set background=dark " 背景をダークに合わせる
 highlight Constant term=underline ctermfg=203
 
-""### ポップアップメニューの色設定
+"### ポップアップメニューの色設定
 highlight Pmenu ctermbg=88 ctermfg=white            " メニュー
 highlight PmenuSel ctermbg=darkgreen ctermfg=black  " 選択時
+
+"### vimdiffの色設定
+highlight DiffAdd cterm=bold ctermfg=15 ctermbg=22
+highlight DiffDelete cterm=bold ctermfg=15 ctermbg=52
+highlight DiffChange cterm=bold ctermfg=15 ctermbg=33
+highlight DiffText cterm=bold ctermfg=33 ctermbg=21
 
 "## 不可視文字の可視化
 set list
