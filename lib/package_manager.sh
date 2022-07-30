@@ -91,7 +91,7 @@ function check_distribution()
   elif [ -e /etc/arch-release ]; then
     DISTRIBUTOR="Arch"
   elif [ -e /etc/SuSE-release ]; then
-    DISTRIBUTOR="SUSE"
+  e DISTRIBUTOR="SUSE"
   elif [ -e /etc/mandriva-release ]; then
     DISTRIBUTOR="Mandriva"
   elif [ -e /etc/vine-release ]; then
@@ -108,9 +108,9 @@ function check_distribution()
 function set_package_management_system_at_distribution()
 {
   case "$1" in
-    "Ubuntu" | "Debian" )
+    "Ubuntu" | "Debian" | "Linuxmint" )
       PKG_MNG_SYS="apt"
-      if [ "$1" == "Ubuntu" ]; then
+      if [ "$1" == "Ubuntu" ] || [ "$1" == "Linuxmint" ]; then
         install_pkg $PKG_MNG_SYS "software-properties-common"
       fi
       ;;
@@ -126,7 +126,7 @@ function set_package_management_system_at_distribution()
 # 0: 成功, 1: 失敗 2: ディストリビューションエラー 3: 配列要素なし
 function add_ppa()
 {
-  if [ "$DISTRIBUTOR" != "Ubuntu" ]; then
+  if [ "$DISTRIBUTOR" != "Ubuntu" ] && [ "$DISTRIBUTOR" != "Linuxmint" ]; then
     return 2
   fi
 
