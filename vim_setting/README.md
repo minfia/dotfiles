@@ -38,6 +38,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 * [skanehira/translate.vim](https://github.com/skanehira/translate.vim)
 * [RRethy/vim-illuminate](https://github.com/RRethy/vim-illuminate)
 * [t9md/vim-quickhl](https://github.com/t9md/vim-quickhl)
+* [liuchengxu/vista.vim](https://github.com/liuchengxu/vista.vim)
 * [GNU GLOBAL](https://www.gnu.org/software/global/)
 
 ## 対応言語

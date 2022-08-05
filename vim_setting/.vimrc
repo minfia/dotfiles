@@ -36,11 +36,11 @@ set timeoutlen=200                       " キーマップのキー入力のタ�
 nnoremap x "_x
 
 "### GNU GLOBALの設定
-map <C-g> :Gtags
-map <C-h> :Gtags -f %<CR>
-map <C-j> :GtagsCursor<CR>
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
+nnoremap <C-g> :Gtags
+nnoremap <C-h> :Gtags -f %<CR>
+nnoremap <C-j> :GtagsCursor<CR>
+nnoremap <C-n> :cn<CR>
+nnoremap <C-p> :cp<CR>
 
 "## Insert mode
 " {入力後、Enterで}を自動入力する
