@@ -24,3 +24,9 @@ alias cp='cp -i'
 function chmod-r(){
   find $1 -type $2 -exec chmod $3 {} +
 }
+
+# GitHub get pull request
+# use $1: PullRequest Number
+function getpullrequest(){
+  git fetch origin pull/$1/head:PR-$1
+}
