@@ -48,14 +48,14 @@ function main()
     install_gnu_global
   fi
 
-  # deinのインストール
-  if [ ! -d ~/.vim/dein ]; then
-    # deinがインストールされていなければインストール
-    mkdir ~/.vim/dein
-    curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > ./installer.sh
-    sh ./installer.sh ~/.vim/dein
-    rm -f installer.sh
-  fi
+#  # deinのインストール
+#  if [ ! -d ~/.vim/dein ]; then
+#    # deinがインストールされていなければインストール
+#    mkdir ~/.vim/dein
+#    curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > ./installer.sh
+#    sh ./installer.sh ~/.vim/dein
+#    rm -f installer.sh
+#  fi
 
   # プラグインのインストール
   vim -c ":q"
