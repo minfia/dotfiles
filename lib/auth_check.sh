@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 
-
 # 指定した権限があるかチェック
 # $1-確認したい権限文字列
 # 0: 権限あり, 1: 権限なし
@@ -23,5 +22,3 @@ function is_sudo_auth()
   return $?
 }
 
-is_sudo_auth
-echo $?
