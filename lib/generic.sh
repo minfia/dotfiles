@@ -31,6 +31,19 @@ function insert_string_in_file()
   return 0
 }
 
+# 指定した権限をユーザーが持っているか確認
+# $1-確認したい権限文字列
+# 0: 権限あり, 1: 権限なし
+function is_auth_in_str()
+{
+  groups `whoami` | grep -o " $1 " > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 # 配列の中身を逆順にする
 # attention: 文字列の場合、間にスペースがあるものは非対応
 # $1-配列
