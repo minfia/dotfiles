@@ -48,6 +48,8 @@ function suffix_proc()
   :
 }
 
+# porgのインストール処理
+# 0: 正常終了, 1: インストール時異常
 function install_porg()
 {
   # porgインストールチェック
@@ -61,9 +63,11 @@ function install_porg()
   ./install_porg.sh
   if [ $? -ne 0 ]; then
     echo "porg install error."
-  fi
-  if [ -e ./temp ]; then
-    rm -rf temp
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+      return 1
+    fi
   fi
   cd ../
   source ~/.bashrc
