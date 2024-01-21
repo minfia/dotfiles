@@ -7,9 +7,9 @@ function get_distribution()
 {
   local DISTRIBUTION
 
-  if command -v lsb_release 2>/dev/null; then
-    DISTRIBUTION=$(lsb_release -a 2>&1 | grep 'Distributor ID' | awk '{print $3}')
-  elif [ -e /etc/debian_version ]; then
+  #if command -v lsb_release 2>/dev/null; then
+  #  DISTRIBUTION=$(lsb_release -a 2>&1 | grep 'Distributor ID' | awk '{print $3}')
+  if [ -e /etc/debian_version ]; then
     if [ -e /etc/lsb-release ]; then
       DISTRIBUTION=$(cat /etc/lsb-release | grep 'DISTRIB_ID' | awk -F'[=]' '{print $2}')
     else
