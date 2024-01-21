@@ -156,9 +156,6 @@ function download_proc()
   return 0
 }
 
-# tempディレクトリ名
-TEMP_DIR_NAME=temp
-
 function main()
 {
   install_required_pkgs
@@ -167,11 +164,11 @@ function main()
     exit 1
   fi
 
-  if [ -e ./${TEMP_DIR_NAME} ]; then
-    rm -rf ./${TEMP_DIR_NAME}
+  if [ -e ./temp ]; then
+    rm -rf temp
   fi
-  mkdir ./${TEMP_DIR_NAME}
-  cd ${TEMP_DIR_NAME}
+  mkdir ./temp
+  cd temp
 
   download_proc
   if [ $? -ne 0 ]; then
@@ -211,7 +208,7 @@ function main()
   fi
 
   cd ../../
-  rm -rf ./${TEMP_DIR_NAME}
+  rm -rf temp
 
   exit 0
 }
