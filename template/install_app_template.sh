@@ -111,14 +111,23 @@ function install_required_pkgs()
     return 0
   fi
 
-  local INSTALL_PKGS=(`get_not_installed_cmds ${PKG_LIST[@]}`)
+  local DIST_NAME=`get_distribution`
+  local DEF_PKG_MNG_NAME=`get_package_manager ${DIST_NAME}`
+
+  local INSTALL_PKGS=()
+  local PRE_INSTALL_PKGS=(`get_not_installed_cmds ${PKG_LIST[@]}`)
+  local CNT=0
+  for ((i=0; i<${#PRE_INSTALL_PKGS[@]}; i++)); do
+    is_installed_from_pkg ${DEF_PKG_MNG_NAME} ${PRE_INSTALL_PKGS[${i}]}
+    if [ $? -eq 1 ]; then
+      INSTALL_PKGS[${CNT}]=${PRE_INSTALL_PKGS[${i}]}
+      CNT=`expr ${CNT} + 1`
+    fi
+  done
 
   if [ ${#INSTALL_PKGS[@]} -eq 0 ]; then
     return 0
   fi
-
-  local DIST_NAME=`get_distribution`
-  local DEF_PKG_MNG_NAME=`get_package_manager ${DIST_NAME}`
 
   is_auth_in_str "sudo"
   if [ $? -ne 0 ]; then
@@ -137,20 +146,21 @@ ARCHIVE_NAME=${APP_NAME}
 # 0: 正常終了, 1: ダウンロード失敗
 function download_proc()
 {
-  if [ ${USE_MASTER_BRANCH} -eq 1]; then
-    wget https://github.com/${USER_NAME}/${APP_NAME}/archive/master.tar.gz
-    if [ $? -ne 0 ]; then
-      return 1
-    fi
-    ARCHIVE_NAME=${ARCHIVE_NAME}-master
-    mv master.tar.gz ${ARCHIVE_NAME}.tar.gz
+  # GitHubの非共通部URL
+  local URL_SUFFIX=
+
+  if [ ${USE_MASTER_BRANCH} -eq 1 ]; then
+    APP_VER=master
+    URL_SUFFIX=master.tar.gz
   else
-    wget https://github.com/${USER_NAME}/${APP_NAME}/archive/refs/tags/v${APP_VER}.tar.gz
-    if [ $? -ne 0 ]; then
-      return 1
-    fi
-    ARCHIVE_NAME=${ARCHIVE_NAME}-${APP_VER}
-    mv v${APP_VER} ${ARCHIVE_NAME}.tar.gz
+    URL_SUFFIX=refs/tags/v${APP_VER}.tar.gz
+  fi
+
+  ARCHIVE_NAME=${ARCHIVE_NAME}-${APP_VER}
+
+  wget -O ${ARCHIVE_NAME}.tar.gz https://github.com/${USER_NAME}/${APP_NAME}/archive/${URL_SUFFIX}
+  if [ $? -ne 0 ]; then
+    return 1
   fi
 
   return 0
