@@ -72,8 +72,9 @@ function is_installed_from_pkg()
   local PKG
   case "$1" in
     "apt" )
-      LIST=(`dpkg -l | grep -E "^ii  $2 "`)
-      PKG=${LIST[1]}
+      LIST=(`dpkg -l | grep -E "^ii  $2"`)
+      local PKG_ARR=(${LIST[1]//:/ })
+      PKG=${PKG_ARR[0]}
       ;;
     "pip3" )
       LIST=(`pip3 list --format=columns | grep $2`)

@@ -37,6 +37,11 @@ function test_is_installed_from_pkg()
   local EXPECT=0
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg installed(${LINENO})"
 
+  is_installed_from_pkg ${PKG_MNG} "libnftables1"
+  RESULT=$?
+  EXPECT=0
+  unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg installed packege name by colon(${LINENO})"
+
   is_installed_from_pkg ${PKG_MNG} "TEST1"
   RESULT=$?
   EXPECT=1
