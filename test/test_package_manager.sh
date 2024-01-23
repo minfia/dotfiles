@@ -10,7 +10,7 @@ function test_get_distribution()
   local RESULT=`get_distribution`
   local EXPECT="Debian"
 
-  unit_test_assert_equal_string ${EXPECT} ${RESULT} "distribution test(${LINENO})"
+  unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "distribution test(${LINENO})"
 }
 
 # パッケージ管理システムの取得関数テスト
@@ -22,7 +22,7 @@ test_get_package_manager()
   for ((i=0; i<${#DIST_NAME_LIST[@]}; i++)); do
     local RESULT=`get_package_manager ${DIST_NAME_LIST[$i]}`
     local EXPECT=${EXPECT_LIST[$i]}
-    unit_test_assert_equal_string ${EXPECT} ${RESULT} "pkg manager test(${LINENO})"
+    unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "pkg manager test(${LINENO})"
   done
 }
 
@@ -40,7 +40,7 @@ function test_is_installed_from_pkg()
   is_installed_from_pkg ${PKG_MNG} "libnftables1"
   RESULT=$?
   EXPECT=0
-  unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg installed packege name by colon(${LINENO})"
+  unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg installed at colon(${LINENO})"
 
   is_installed_from_pkg ${PKG_MNG} "TEST1"
   RESULT=$?
@@ -58,6 +58,18 @@ function test_is_installed_from_pkg()
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg argument error(${LINENO})"
 }
 
+# 実パッケージ名の確認関数テスト
+function test_is_virtual_pkg()
+{
+  local RESULT=`is_virtual_pkg "zlib1g"`
+  local EXPECT=""
+  unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "not virtual pkg(${LINENO})"
+
+  RESULT=`is_virtual_pkg "libz-dev"`
+  EXPECT="zlib1g-dev"
+  unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "virtual pkg(${LINENO})"
+}
+
 # パッケージ管理システムからパッケージをインストール関数テスト
 function test_install_from_pkg()
 {
@@ -65,8 +77,8 @@ function test_install_from_pkg()
   local PKG_MNG=`get_package_manager ${DIST_NAME}`
 
   install_from_pkg "dkjasdf" "tar"
-  RESULT=$?
-  EXPECT=1
+  local RESULT=$?
+  local EXPECT=1
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg not support package manager(${LINENO})"
 
   install_from_pkg ${PKG_MNG}
@@ -81,8 +93,8 @@ function test_upgrade_from_pkg()
   local PKG_MNG=`get_package_manager ${DIST_NAME}`
 
   upgrade_from_pkg "dkjasdf"
-  RESULT=$?
-  EXPECT=2
+  local RESULT=$?
+  local EXPECT=2
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg not support package manager(${LINENO})"
 
   upgrade_from_pkg
@@ -122,7 +134,7 @@ function test_get_installed_cmds()
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "cmd list array size(${LINENO})"
 
   for ((i=0; i<${#EXPECT_LIST[@]}; i++)); do
-    unit_test_assert_equal_string ${EXPECT_LIST[$i]} ${RES_LIST[$i]} "cmd [$i](${LINENO})"
+    unit_test_assert_equal_string "${EXPECT_LIST[$i]}" "${RES_LIST[$i]}" "cmd [$i](${LINENO})"
   done
 }
 
@@ -138,7 +150,7 @@ function test_get_not_installed_cmds()
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "cmd list array size(${LINENO})"
 
   for ((i=0; i<${#EXPECT_LIST[@]}; i++)); do
-    unit_test_assert_equal_string ${EXPECT_LIST[$i]} ${RES_LIST[$i]} "cmd [$i](${LINENO})"
+    unit_test_assert_equal_string "${EXPECT_LIST[$i]}" "${RES_LIST[$i]}" "cmd [$i](${LINENO})"
   done
 }
 
@@ -155,8 +167,8 @@ function test_add_ppa_repo()
 
   DIST_NAME="Ubuntu"
   add_ppa_repo ${DIST_NAME}
-  local RESULT=$?
-  local EXPECT=3
+  RESULT=$?
+  EXPECT=3
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "add ppa array error(${LINENO})"
 }
 
@@ -168,6 +180,7 @@ function main()
   test_get_package_manager
 
   test_is_installed_from_pkg
+  test_is_virtual_pkg
   test_install_from_pkg
   test_upgrade_from_pkg
 

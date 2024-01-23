@@ -92,6 +92,26 @@ function is_installed_from_pkg()
   fi
 }
 
+# 実パッケージ名の確認
+# $1-対象とするパッケージ管理システム, $2-チェックするパッケージ
+# 空文字列: 非仮想パッケージ, 何かしらの文字列: 実パッケージ名
+function is_virtual_pkg()
+{
+  local PKG=$1
+  local LIST=(`apt-cache showpkg $1`)
+  local PKG_RES=""
+  
+  for ((i=0; i<${#LIST[@]}; i++)); do
+    # "Reverse Provides:の検索"
+    if [ "${LIST[${i}]}" == "Reverse" ] && [ "${LIST[${i}+1]}" == "Provides:" ]; then
+      PKG_RES=${LIST[${i}+2]}
+      break
+    fi
+  done
+
+  echo "${PKG_RES}"
+}
+
 # パッケージ管理システムからパッケージをインストール
 # $1-対象とするパッケージ管理システム, $2-インストールするパッケージの配列
 # 0: 正常終了, 1: 非対応パッケージ管理システム, 2: 引数エラー
