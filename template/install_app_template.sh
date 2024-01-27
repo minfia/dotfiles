@@ -118,7 +118,7 @@ function install_required_pkgs()
   local PRE_INSTALL_PKGS=(`get_not_installed_cmds ${PKG_LIST[@]}`)
   local CNT=0
   for ((i=0; i<${#PRE_INSTALL_PKGS[@]}; i++)); do
-    is_installed_from_pkg ${DEF_PKG_MNG_NAME} ${PRE_INSTALL_PKGS[${i}]}
+    is_installed_from_pkg_mng ${DEF_PKG_MNG_NAME} ${PRE_INSTALL_PKGS[${i}]}
     if [ $? -eq 1 ]; then
       INSTALL_PKGS[${CNT}]=${PRE_INSTALL_PKGS[${i}]}
       CNT=`expr ${CNT} + 1`
@@ -134,7 +134,7 @@ function install_required_pkgs()
     return 1
   fi
 
-  install_from_pkg "${DEF_PKG_MNG_NAME}" "${INSTALL_PKGS[@]}"
+  install_from_pkg_mng "${DEF_PKG_MNG_NAME}" "${INSTALL_PKGS[@]}"
 
   return 0
 }

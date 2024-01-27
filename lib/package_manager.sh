@@ -63,7 +63,7 @@ function get_package_manager()
 # パッケージ管理システムでのインストール済みパッケージ確認
 # $1-対象とするパッケージ管理システム, $2-チェックするパッケージ
 # 0: インストール済み, 1: 未インストール, 2: 非対応パッケージ管理システム, 3: 引数エラー
-function is_installed_from_pkg()
+function is_installed_from_pkg_mng()
 {
   if [ -z "$1" ] || [ -z "$2" ]; then
     return 3
@@ -115,7 +115,7 @@ function is_virtual_pkg()
 # パッケージ管理システムからパッケージをインストール
 # $1-対象とするパッケージ管理システム, $2-インストールするパッケージの配列
 # 0: 正常終了, 1: 非対応パッケージ管理システム, 2: 引数エラー
-function install_from_pkg()
+function install_from_pkg_mng()
 {
   if [ 1 -ge $# ]; then
     return 2
@@ -142,7 +142,7 @@ function install_from_pkg()
 # パッケージ管理システムからパッケージのアップグレード
 # $1-対象とするパッケージ管理システム
 # 0: 正常終了, 1: 異常終了, 2: 非対応パッケージ管理システム, 3: 引数エラー
-function upgrade_from_pkg()
+function upgrade_from_pkg_mng()
 {
   if [ -z "$1" ]; then
     return 3
@@ -273,7 +273,7 @@ function add_ppa_repo()
 
   if [ ${ADD_FLG} -ne 0 ]; then
     sudo apt update
-    upgrade_from_pkg "apt"
+    upgrade_from_pkg_mng "apt"
   fi
 
   return 0

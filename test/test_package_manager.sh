@@ -27,32 +27,32 @@ test_get_package_manager()
 }
 
 # パッケージ管理システムでのインストール済みパッケージ確認関数テスト
-function test_is_installed_from_pkg()
+function test_is_installed_from_pkg_mng()
 {
   local DIST_NAME=`get_distribution`
   local PKG_MNG=`get_package_manager ${DIST_NAME}`
 
-  is_installed_from_pkg ${PKG_MNG} "tar"
+  is_installed_from_pkg_mng ${PKG_MNG} "tar"
   local RESULT=$?
   local EXPECT=0
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg installed(${LINENO})"
 
-  is_installed_from_pkg ${PKG_MNG} "libnftables1"
+  is_installed_from_pkg_mng ${PKG_MNG} "libnftables1"
   RESULT=$?
   EXPECT=0
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg installed at colon(${LINENO})"
 
-  is_installed_from_pkg ${PKG_MNG} "TEST1"
+  is_installed_from_pkg_mng ${PKG_MNG} "TEST1"
   RESULT=$?
   EXPECT=1
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg not installed(${LINENO})"
 
-  is_installed_from_pkg "dkjasdf" "tar"
+  is_installed_from_pkg_mng "dkjasdf" "tar"
   RESULT=$?
   EXPECT=2
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg not support package manager(${LINENO})"
 
-  is_installed_from_pkg ${PKG_MNG}
+  is_installed_from_pkg_mng ${PKG_MNG}
   RESULT=$?
   EXPECT=3
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg argument error(${LINENO})"
@@ -71,33 +71,33 @@ function test_is_virtual_pkg()
 }
 
 # パッケージ管理システムからパッケージをインストール関数テスト
-function test_install_from_pkg()
+function test_install_from_pkg_mng()
 {
   local DIST_NAME=`get_distribution`
   local PKG_MNG=`get_package_manager ${DIST_NAME}`
 
-  install_from_pkg "dkjasdf" "tar"
+  install_from_pkg_mng "dkjasdf" "tar"
   local RESULT=$?
   local EXPECT=1
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg not support package manager(${LINENO})"
 
-  install_from_pkg ${PKG_MNG}
+  install_from_pkg_mng ${PKG_MNG}
   RESULT=$?
   EXPECT=2
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg argument error(${LINENO})"
 }
 
-function test_upgrade_from_pkg()
+function test_upgrade_from_pkg_mng()
 {
   local DIST_NAME=`get_distribution`
   local PKG_MNG=`get_package_manager ${DIST_NAME}`
 
-  upgrade_from_pkg "dkjasdf"
+  upgrade_from_pkg_mng "dkjasdf"
   local RESULT=$?
   local EXPECT=2
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg not support package manager(${LINENO})"
 
-  upgrade_from_pkg
+  upgrade_from_pkg_mng
   RESULT=$?
   EXPECT=3
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg argument error(${LINENO})"
@@ -179,10 +179,10 @@ function main()
   test_get_distribution
   test_get_package_manager
 
-  test_is_installed_from_pkg
+  test_is_installed_from_pkg_mng
   test_is_virtual_pkg
-  test_install_from_pkg
-  test_upgrade_from_pkg
+  test_install_from_pkg_mng
+  test_upgrade_from_pkg_mng
 
   test_is_installed_app
   test_get_installed_cmds

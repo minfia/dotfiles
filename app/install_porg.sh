@@ -132,7 +132,7 @@ function install_required_pkgs()
     return 1
   fi
 
-  install_from_pkg "${DEF_PKG_MNG_NAME}" "${INSTALL_PKGS[@]}"
+  install_from_pkg_mng "${DEF_PKG_MNG_NAME}" "${INSTALL_PKGS[@]}"
 
   return 0
 }
