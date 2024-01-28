@@ -114,17 +114,7 @@ function install_required_pkgs()
   local DIST_NAME=`get_distribution`
   local DEF_PKG_MNG_NAME=`get_package_manager ${DIST_NAME}`
 
-  local INSTALL_PKGS=()
-  local PRE_INSTALL_PKGS=(`get_not_installed_cmds ${PKG_LIST[@]}`)
-  local CNT=0
-  for ((i=0; i<${#PRE_INSTALL_PKGS[@]}; i++)); do
-    is_installed_from_pkg_mng ${DEF_PKG_MNG_NAME} ${PRE_INSTALL_PKGS[${i}]}
-    if [ $? -eq 1 ]; then
-      INSTALL_PKGS[${CNT}]=${PRE_INSTALL_PKGS[${i}]}
-      CNT=`expr ${CNT} + 1`
-    fi
-  done
-
+  local INSTALL_PKGS=(`get_not_installed_pkgs_from_pkg_mng "${DEF_PKG_MNG_NAME}" "${PKG_LIST[@]}"`)
   if [ ${#INSTALL_PKGS[@]} -eq 0 ]; then
     return 0
   fi

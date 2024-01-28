@@ -59,15 +59,25 @@ function test_is_installed_from_pkg_mng()
 }
 
 # 実パッケージ名の確認関数テスト
-function test_is_virtual_pkg()
+function test_get_virtual_pkg_name_from_pkg_mng()
 {
-  local RESULT=`is_virtual_pkg "zlib1g"`
+  local DIST_NAME=`get_distribution`
+  local PKG_MNG=`get_package_manager "${DIST_NAME}"`
+  local RESULT=`get_virtual_pkg_name_from_pkg_mng "${PKG_MNG}" "zlib1g"`
   local EXPECT=""
   unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "not virtual pkg(${LINENO})"
 
-  RESULT=`is_virtual_pkg "libz-dev"`
+  RESULT=`get_virtual_pkg_name_from_pkg_mng "${PKG_MNG}" "libz-dev"`
   EXPECT="zlib1g-dev"
   unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "virtual pkg(${LINENO})"
+
+  RESULT=`get_virtual_pkg_name_from_pkg_mng "sdfasdfa" "libz-dev"`
+  EXPECT="1"
+  unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "pkg not support package manager(${LINENO})"
+
+  RESULT=`get_virtual_pkg_name_from_pkg_mng "libz-dev"`
+  EXPECT="2"
+  unit_test_assert_equal_string "${EXPECT}" "${RESULT}" "pkg argument error(${LINENO})"
 }
 
 # パッケージ管理システムからパッケージをインストール関数テスト
@@ -87,6 +97,7 @@ function test_install_from_pkg_mng()
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "pkg argument error(${LINENO})"
 }
 
+# パッケージ管理システムからパッケージのアップグレード関数テスト
 function test_upgrade_from_pkg_mng()
 {
   local DIST_NAME=`get_distribution`
@@ -123,15 +134,15 @@ function test_is_installed_app()
 }
 
 # インストール済みのアプリ一覧を取得関数テスト
-function test_get_installed_cmds()
+function test_get_installed_pkgs()
 {
-  local CMD_LIST=("ls" "TEST1" "TEST2" "cd")
-  local RES_LIST=(`get_installed_cmds ${CMD_LIST[@]}`)
-  local EXPECT_LIST=("ls" "cd")
+  local CMD_LIST=("sudo" "TEST1" "TEST2" "less" "libz-dev")
+  local RES_LIST=(`get_installed_pkgs_from_pkg_mng "" ${CMD_LIST[@]}`)
+  local EXPECT_LIST=("sudo" "less")
 
   local EXPECT=${#EXPECT_LIST[@]}
   local RESULT=${#RES_LIST[@]}
-  unit_test_assert_equal_number ${EXPECT} ${RESULT} "cmd list array size(${LINENO})"
+  unit_test_assert_equal_number ${EXPECT} ${RESULT} "cmd list array size(List: ${RES_LIST[@]})(${LINENO})"
 
   for ((i=0; i<${#EXPECT_LIST[@]}; i++)); do
     unit_test_assert_equal_string "${EXPECT_LIST[$i]}" "${RES_LIST[$i]}" "cmd [$i](${LINENO})"
@@ -139,15 +150,19 @@ function test_get_installed_cmds()
 }
 
 # 未インストールのアプリ一覧を取得関数テスト
-function test_get_not_installed_cmds()
+function test_get_not_installed_pkgs()
 {
-  local CMD_LIST=("ls" "TEST1" "TEST2" "cd")
-  local RES_LIST=(`get_not_installed_cmds ${CMD_LIST[@]}`)
-  local EXPECT_LIST=("TEST1" "TEST2")
+  is_installed_from_pkg_mng "apt" "zlib1g-dev"
+  if [ $? -eq 0 ]; then
+    sudo apt remove zlib1g-dev > /dev
+  fi
+  local CMD_LIST=("sudo" "TEST1" "TEST2" "less" "libz-dev")
+  local RES_LIST=(`get_not_installed_pkgs_from_pkg_mng "" ${CMD_LIST[@]}`)
+  local EXPECT_LIST=("TEST1" "TEST2" "libz-dev")
 
   local EXPECT=${#EXPECT_LIST[@]}
   local RESULT=${#RES_LIST[@]}
-  unit_test_assert_equal_number ${EXPECT} ${RESULT} "cmd list array size(${LINENO})"
+  unit_test_assert_equal_number ${EXPECT} ${RESULT} "cmd list array size(List: ${RES_LIST[@]})(${LINENO})"
 
   for ((i=0; i<${#EXPECT_LIST[@]}; i++)); do
     unit_test_assert_equal_string "${EXPECT_LIST[$i]}" "${RES_LIST[$i]}" "cmd [$i](${LINENO})"
@@ -180,13 +195,13 @@ function main()
   test_get_package_manager
 
   test_is_installed_from_pkg_mng
-  test_is_virtual_pkg
+  test_get_virtual_pkg_name_from_pkg_mng
   test_install_from_pkg_mng
   test_upgrade_from_pkg_mng
 
   test_is_installed_app
-  test_get_installed_cmds
-  test_get_not_installed_cmds
+  test_get_installed_pkgs
+  test_get_not_installed_pkgs
 
   test_add_ppa_repo
 

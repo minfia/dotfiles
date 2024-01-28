@@ -118,14 +118,13 @@ function install_required_pkgs()
     return 0
   fi
 
-  local INSTALL_PKGS=(`get_not_installed_cmds ${PKG_LIST[@]}`)
+  local DIST_NAME=`get_distribution`
+  local DEF_PKG_MNG_NAME=`get_package_manager ${DIST_NAME}`
 
+  local INSTALL_PKGS=(`get_not_installed_pkgs_from_pkg_mng "${DEF_PKG_MNG_NAME}" "${PKG_LIST[@]}"`)
   if [ ${#INSTALL_PKGS[@]} -eq 0 ]; then
     return 0
   fi
-
-  local DIST_NAME=`get_distribution`
-  local DEF_PKG_MNG_NAME=`get_package_manager ${DIST_NAME}`
 
   is_auth_in_str "sudo"
   if [ $? -ne 0 ]; then

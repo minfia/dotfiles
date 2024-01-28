@@ -70,6 +70,7 @@ function is_installed_from_pkg_mng()
   fi
   local LIST
   local PKG
+
   case "$1" in
     "apt" )
       LIST=(`dpkg -l | grep -E "^ii  $2"`)
@@ -94,20 +95,34 @@ function is_installed_from_pkg_mng()
 
 # 実パッケージ名の確認
 # $1-対象とするパッケージ管理システム, $2-チェックするパッケージ
-# 空文字列: 非仮想パッケージ, 何かしらの文字列: 実パッケージ名
-function is_virtual_pkg()
+# 空文字列: 非仮想パッケージ, 空文字列以外: 実パッケージ名, 1の文字列: 非対応パッケージ管理システム, 2の文字列: 引数エラー
+function get_virtual_pkg_name_from_pkg_mng()
 {
-  local PKG=$1
-  local LIST=(`apt-cache showpkg $1`)
   local PKG_RES=""
-  
-  for ((i=0; i<${#LIST[@]}; i++)); do
-    # "Reverse Provides:の検索"
-    if [ "${LIST[${i}]}" == "Reverse" ] && [ "${LIST[${i}+1]}" == "Provides:" ]; then
-      PKG_RES=${LIST[${i}+2]}
-      break
-    fi
-  done
+  if [ $# -ne 2 ]; then
+    echo "2"
+    return
+  fi
+
+  local PKG_MNG=$1
+  local PKG=$2
+
+  case "${PKG_MNG}" in
+    "apt" )
+      local LIST=(`apt-cache showpkg ${PKG}`)
+      for ((i=0; i<${#LIST[@]}; i++)); do
+        # "Reverse Provides:の検索"
+        if [ "${LIST[${i}]}" == "Reverse" ] && [ "${LIST[${i}+1]}" == "Provides:" ]; then
+          PKG_RES=${LIST[${i}+2]}
+          break
+        fi
+      done
+      ;;
+    * )
+      echo "1"
+      return
+      ;;
+  esac
 
   echo "${PKG_RES}"
 }
@@ -166,46 +181,50 @@ function upgrade_from_pkg_mng()
   fi
 }
 
-# アプリのインストールのチェック
-# $1-アプリ名
-# 0: インストール済み, 1: 未インストール, 2: 引数エラー
-function is_installed_app()
-{
-  if [ $# -ne 1 ]; then
-    return 2
-  fi
-
-  local EXEC_CMD=$1
-  # local CMD_OPT="$2"
-
-  type ${EXEC_CMD} > /dev/null 2>&1
-
-  if [ $? -eq 0 ]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-# インストール済みのアプリ一覧を取得
-# $1-アプリ名の配列
-# ret: インストール済みアプリ一覧
-function get_installed_cmds()
+# インストールのアプリ一覧を取得
+# パッケージ管理システムは省略可能でその場合はディストリビューションのパッケージ管理システムを使用する
+# $1-対象とするパッケージ管理システム, $2-アプリ名の配列
+# ret: 未インストールアプリ一覧
+function get_installed_pkgs_from_pkg_mng()
 {
   if [ $# -eq 0 ]; then
     return 2
   fi
 
-  local CMDS_ARR=($@)
-  local CMDS_SIZE=${#CMDS_ARR[@]}
+  local PKG_MNG=$1
+  shift
+  if [ "${PKG_MNG}" == "" ]; then
+    local DIST_NAME=`get_distribution`
+    PKG_MNG=`get_package_manager "${DIST_NAME}"`
+  fi
+
+  local PKG_ARR=($@)
+  local PKG_SIZE=${#PKG_ARR[@]}
   local ARR
   local CNT=0
 
-  for ((i=0; i<${CMDS_SIZE}; i++)); do
-    type "${CMDS_ARR[$i]}" > /dev/null 2>&1
+  for ((i=0; i<${PKG_SIZE}; i++)); do
+    local PKG=${PKG_ARR[$i]}
+    is_installed_from_pkg_mng "${PKG_MNG}" "${PKG}"
     if [ $? -eq 0 ]; then
-      ARR[${CNT}]=${CMDS_ARR[$i]}
-      CNT=`expr $CNT + 1`
+      # インストール済み
+      ARR[${CNT}]=${PKG}
+      CNT=`expr ${CNT} + 1`
+    else
+      # 仮想パッケージの可能性あり
+      local V_PKG=`get_virtual_pkg_name_from_pkg_mng "${PKG_MNG}" "${PKG}"`
+      if [ "${V_PKG}" == "" ]; then
+        # 実パッケージかつ未インストール
+        continue
+      else
+        # 仮想パッケージでインストール済みか確認
+        is_installed_from_pkg_mng "${PKG_MNG}" "${V_PKG}"
+        if [ $? -eq 0 ]; then
+          # インストール済み
+          ARR[${CNT}]=${PKG}
+          CNT=`expr ${CNT} + 1`
+        fi
+      fi
     fi
   done
 
@@ -213,24 +232,49 @@ function get_installed_cmds()
 }
 
 # 未インストールのアプリ一覧を取得
-# $1-アプリ名の配列
+# パッケージ管理システムは省略可能でその場合はディストリビューションのパッケージ管理システムを使用する
+# $1-対象とするパッケージ管理システム, $2-アプリ名の配列
 # ret: 未インストールアプリ一覧
-function get_not_installed_cmds()
+function get_not_installed_pkgs_from_pkg_mng()
 {
   if [ $# -eq 0 ]; then
     return 2
   fi
 
-  local CMDS_ARR=($@)
-  local CMDS_SIZE=${#CMDS_ARR[@]}
+  local PKG_MNG=$1
+  shift
+  if [ "${PKG_MNG}" == "" ]; then
+    local DIST_NAME=`get_distribution`
+    PKG_MNG=`get_package_manager "${DIST_NAME}"`
+  fi
+
+  local PKG_ARR=($@)
+  local PKG_SIZE=${#PKG_ARR[@]}
   local ARR
   local CNT=0
 
-  for ((i=0; i<${CMDS_SIZE}; i++)); do
-    type "${CMDS_ARR[$i]}" > /dev/null 2>&1
-    if [ $? -eq 1 ]; then
-      ARR[${CNT}]=${CMDS_ARR[$i]}
-      CNT=`expr $CNT + 1`
+  for ((i=0; i<${PKG_SIZE}; i++)); do
+    local PKG=${PKG_ARR[$i]}
+    is_installed_from_pkg_mng "${PKG_MNG}" "${PKG}"
+    if [ $? -eq 0 ]; then
+      # インストール済み
+      continue
+    else
+      # 仮想パッケージの可能性あり
+      local V_PKG=`get_virtual_pkg_name_from_pkg_mng "${PKG_MNG}" "${PKG}"`
+      if [ "${V_PKG}" == "" ]; then
+        # 実パッケージかつ未インストール
+        ARR[${CNT}]=${PKG}
+        CNT=`expr ${CNT} + 1`
+      else
+        # 仮想パッケージでインストール済みか確認
+        is_installed_from_pkg_mng "${PKG_MNG}" "${V_PKG}"
+        if [ $? -ne 0 ]; then
+          # 未インストール
+          ARR[${CNT}]=${PKG}
+          CNT=`expr ${CNT} + 1`
+        fi
+      fi
     fi
   done
 
@@ -277,4 +321,24 @@ function add_ppa_repo()
   fi
 
   return 0
+}
+
+# アプリのインストールのチェック
+# $1-アプリ名
+# 0: インストール済み, 1: 未インストール, 2: 引数エラー
+function is_installed_app()
+{
+  if [ $# -ne 1 ]; then
+    return 2
+  fi
+
+  local EXEC_CMD=$1
+
+  type ${EXEC_CMD} > /dev/null 2>&1
+
+  if [ $? -eq 0 ]; then
+    return 0
+  else
+    return 1
+  fi
 }
