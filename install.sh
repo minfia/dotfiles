@@ -53,7 +53,7 @@ function suffix_proc()
 function install_porg()
 {
   # porgインストールチェック
-  type porg > /dev/null 2>&1
+  is_installed_app "porg"
   if [ $? -eq 0 ] || [ -e ${SYSTEM_BASE_DIR_PATH}/usr/bin/porg ]; then
     # porgがインストール済み
     return 0
@@ -75,6 +75,34 @@ function install_porg()
   return 0
 }
 
+# gitのインストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_git()
+{
+  # gitインストールチェック
+  is_installed_app "git"
+  if [ $? -eq 0 ]; then
+    # gitがインストール済み
+    return 0
+  fi
+
+  cd ./app
+  ./install_git.sh
+  if [ $? -ne 0 ]; then
+    echo "git install error."
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+      return 1
+    fi
+  fi
+  cd ../
+
+  echo "git install success."
+
+  return 0
+}
+
 function main()
 {
   prefix_proc
@@ -83,6 +111,8 @@ function main()
   if [ $? -ne 0 ]; then
     exit 1
   fi
+
+  install_git
 
   suffix_proc
 }
