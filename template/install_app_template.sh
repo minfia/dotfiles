@@ -196,7 +196,7 @@ function main()
 
   if [ ${USE_MASTER_BRANCH} -eq 1 ]; then
     local INSTALL_DATE=`date +"%Y%m%d"`
-    porg -lp ${ARCHIVE_NAME}-${INSTALL_DATE} -E/tmp:/dev:/proc:/selinux:/sys:/run:`pwd` "make install"
+    porg -lp ${APP_NAME}-${INSTALL_DATE}_master -E/tmp:/dev:/proc:/selinux:/sys:/run:`pwd` "make install"
   else
     porg -lD -E/tmp:/dev:/proc:/selinux:/sys:/run:`pwd` "make install"
   fi
