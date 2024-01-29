@@ -170,6 +170,12 @@ function main()
   mkdir ./temp
   cd temp
 
+  is_installed_app "porg"
+  if [ $? -ne 0 ]; then
+    echo "'porg' not exist."
+    exit 1
+  fi
+
   download_proc
   if [ $? -ne 0 ]; then
     echo "download error."
