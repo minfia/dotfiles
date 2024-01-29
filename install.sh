@@ -131,6 +131,34 @@ function install_tmux()
   return 0
 }
 
+# vimのインストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_vim()
+{
+  # gitインストールチェック
+  is_installed_app "vim"
+  if [ $? -eq 0 ]; then
+    # vimがインストール済み
+    return 0
+  fi
+
+  cd ./app
+  ./install_vim.sh --enable-python3
+  if [ $? -ne 0 ]; then
+    echo "vim install error."
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+      return 1
+    fi
+  fi
+  cd ../
+
+  echo "vim install success."
+
+  return 0
+}
+
 function main()
 {
   prefix_proc
@@ -142,6 +170,7 @@ function main()
 
   install_git
   install_tmux
+  install_vim
 
   suffix_proc
 }
