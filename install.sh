@@ -103,6 +103,34 @@ function install_git()
   return 0
 }
 
+# tmuxのインストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_tmux()
+{
+  # gitインストールチェック
+  is_installed_app "tmux"
+  if [ $? -eq 0 ]; then
+    # tmuxがインストール済み
+    return 0
+  fi
+
+  cd ./app
+  ./install_tmux.sh
+  if [ $? -ne 0 ]; then
+    echo "tmux install error."
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+      return 1
+    fi
+  fi
+  cd ../
+
+  echo "tmux install success."
+
+  return 0
+}
+
 function main()
 {
   prefix_proc
@@ -113,6 +141,7 @@ function main()
   fi
 
   install_git
+  install_tmux
 
   suffix_proc
 }
