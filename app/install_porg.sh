@@ -43,11 +43,12 @@ function prefix_make_proc()
 # make install後に必要な処理
 function suffix_make_proc()
 {
+  # porgのパスを通す
   local BASHRC=~/.bashrc
   local APP_PATH=${SYSTEM_BASE_DIR_PATH}/usr/bin
   local WRITE_TEXT="export PATH=${APP_PATH}:\$PATH"
   insert_string_in_file "${BASHRC}" "${WRITE_TEXT}"
-  if [ $? -ne 0 ]; then
+  if [ $? -ge 2 ]; then
     return 1
   fi
 
