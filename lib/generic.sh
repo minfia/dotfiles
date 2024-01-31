@@ -64,3 +64,21 @@ function reverse_array()
 
   echo ${ARR[@]}
 }
+
+# 指定のファイル/ディレクトリを現在時間でバックアップファイル/ディレクトリにする
+# $1-バックアップするファイル/ディレクトリのパス
+# 現在時間: バックアップ実施, 1: バックアップ未実施
+function make_backup_obj()
+{
+  local OBJ_PATH="$1"
+
+  if [ ! -e ${OBJ_PATH} ]; then
+    echo "1"
+    return
+  fi
+
+  local DATE_NOW=`date "+%Y%m%d_%H%M%S"`
+  mv ${OBJ_PATH} ${OBJ_PATH}.backup_${DATE_NOW}
+
+  echo ${DATE_NOW}
+}
