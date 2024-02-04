@@ -82,3 +82,17 @@ function make_backup_obj()
 
   echo ${DATE_NOW}
 }
+
+# Error: "文字列"を出力する
+# $1-出力する文字列
+function print_error()
+{
+  echo -e "\e[31mERROR:\e[m $@"
+}
+
+# WANING: "文字列"を出力する
+# $1-出力する文字列
+function print_warning()
+{
+  echo -e "\e[33mERROR:\e[m $@"
+}
