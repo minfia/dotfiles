@@ -175,7 +175,7 @@ function main()
 {
   install_required_pkgs
   if [ $? -ne 0 ]; then
-    echo "required package error."
+    print_error "required package process."
     exit 1
   fi
 
@@ -187,13 +187,13 @@ function main()
 
   is_installed_app "porg"
   if [ $? -ne 0 ]; then
-    echo "'porg' not exist."
+    print_error "'porg' not exist."
     exit 1
   fi
 
   download_proc
   if [ $? -ne 0 ]; then
-    echo "download error."
+    print_error "download process."
     exit 1
   fi
 
@@ -202,7 +202,7 @@ function main()
 
   prefix_make_proc
   if [ $? -ne 0 ]; then
-    echo "prefix_make_proc() error."
+    print_error "prefix_make_proc."
     exit 1
   fi
 
@@ -211,7 +211,7 @@ function main()
 
   make ${BUILD_TARGET}
   if [ $? -ne 0 ];then
-    echo "make error."
+    print_error "make process."
     exit 1
   fi
 
@@ -224,7 +224,7 @@ function main()
 
   suffix_make_proc
   if [ $? -ne 0 ]; then
-    echo "suffix_make_proc() error."
+    print_error "suffix_make_proc."
     exit 1
   fi
 
