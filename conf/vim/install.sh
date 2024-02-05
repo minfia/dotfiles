@@ -213,7 +213,6 @@ function main()
     print_error "suffix_proc."
     exit 1
   fi
-  suffix_proc
 
   exit 0
 }
