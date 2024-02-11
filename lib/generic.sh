@@ -87,12 +87,19 @@ function make_backup_obj()
 # $1-出力する文字列
 function print_error()
 {
-  echo -e "\e[31mERROR:\e[m $@"
+  echo -e "\e[91mERROR:\e[m $@"
+}
+
+# SUCCESS: "文字列"を出力する
+# $1-出力する文字列
+function print_success()
+{
+  echo -e "\e[92mSUCCESS:\e[m $@"
 }
 
 # WANING: "文字列"を出力する
 # $1-出力する文字列
 function print_warning()
 {
-  echo -e "\e[33mERROR:\e[m $@"
+  echo -e "\e[93mWANING:\e[m $@"
 }
