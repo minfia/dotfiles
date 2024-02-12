@@ -63,7 +63,6 @@ function suffix_proc()
 
   # ベルの無効化
   insert_string_in_file ${INPUTRC} "set bell-style none"
-  echo "bell: $?"
 
   # マスク設定
   if [ "`grep "#umask 022" ${PROFILE}`" != "" ]; then
