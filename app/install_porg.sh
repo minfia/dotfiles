@@ -44,10 +44,10 @@ function prefix_make_proc()
 function suffix_make_proc()
 {
   # porgのパスを通す
-  local BASHRC=~/.bashrc
+  local WRITE_FILE=~/.profile
   local APP_PATH=${SYSTEM_BASE_DIR_PATH}/usr/bin
-  local WRITE_TEXT="export PATH=${APP_PATH}:\$PATH"
-  insert_string_in_file "${BASHRC}" "${WRITE_TEXT}"
+  local WRITE_TEXT="PATH=${APP_PATH}:\$PATH"
+  insert_string_in_file "${WRITE_FILE}" "${WRITE_TEXT}"
   if [ $? -ge 2 ]; then
     return 1
   fi
