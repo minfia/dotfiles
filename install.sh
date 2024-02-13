@@ -10,6 +10,8 @@
 IS_INSTALL_APP_GIT=0
 # vimアプリケーションインストールフラグ
 IS_INSTALL_APP_VIM=0
+# neovimアプリケーションインストールフラグ
+IS_INSTALL_APP_NEOVIM=0
 # tmuxアプリケーションインストールフラグ
 IS_INSTALL_APP_TMUX=0
 
@@ -50,6 +52,7 @@ function usage()
   echo -e "  --git             Install git(app/conf)"
   echo -e "  --tmux            Install tmux(app/conf)"
   echo -e "  --vim             Install vim(app/conf)"
+  echo -e "  --neovim            Install neovim(app)"
   echo -e "  --shell <SHELL>   Install shell(conf)"
   echo -e "                    support SHELL:"
   echo -e "                      bash"
@@ -86,6 +89,11 @@ function parse_args()
           IS_INSTALL_APP_VIM=1
         elif [ ${IS_INSTALL_CONF} -eq 1 ]; then
           IS_INSTALL_CONF_VIM=1
+        fi
+        ;;
+      --neovim )
+        if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          IS_INSTALL_APP_NEOVIM=1
         fi
         ;;
       --tmux )
@@ -190,6 +198,10 @@ function install_applications()
     RES_STRING="${RES_STRING}\n    `result_print $? "vim install application"`"
   fi
 
+  if [ ${IS_INSTALL_APP_NEOVIM} -eq 1 ]; then
+    install_app_neovim
+    RES_STRING="${RES_STRING}\n    `result_print $? "neovim install application"`"
+  fi
   if [ ${IS_INSTALL_APP_TMUX} -eq 1 ]; then
     install_app_tmux
     local RET_CODE=$?
@@ -231,7 +243,7 @@ function install_app_git()
 # 0: 正常終了, 1: インストール時異常, 2: インストール済み
 function install_app_vim()
 {
-  # gitインストールチェック
+  # vimインストールチェック
   is_installed_app "vim"
   if [ $? -eq 0 ]; then
     # vimがインストール済み
@@ -252,11 +264,36 @@ function install_app_vim()
   return 0
 }
 
+# neovimのインストール処理
+# 0: 正常終了, 1: インストール時異常, 2: インストール済み
+function install_app_neovim()
+{
+  # neovimインストールチェック
+  is_installed_app "neovim"
+  if [ $? -eq 0 ]; then
+    # neovimがインストール済み
+    return 2
+  fi
+
+  cd ./app
+  ./install_neovim.sh --path "${SYSTEM_BASE_DIR_PATH}"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+    fi
+    return 1
+  fi
+  cd ../
+
+  return 0
+}
+
 # tmuxのインストール処理
 # 0: 正常終了, 1: インストール時異常, 2: インストール済み
 function install_app_tmux()
 {
-  # gitインストールチェック
+  # tmuxインストールチェック
   is_installed_app "tmux"
   if [ $? -eq 0 ]; then
     # tmuxがインストール済み
