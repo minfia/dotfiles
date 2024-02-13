@@ -1,160 +1,482 @@
 #!/usr/bin/env bash
 
+### include shell scripts ###
+. ./lib/generic.sh
+. ./lib/package_manager.sh
+#############################
+
+##### required user configure (variable) #####
+# Gitアプリケーションインストールフラグ
+IS_INSTALL_APP_GIT=0
+# vimアプリケーションインストールフラグ
+IS_INSTALL_APP_VIM=0
+# neovimアプリケーションインストールフラグ
+IS_INSTALL_APP_NEOVIM=0
+# tmuxアプリケーションインストールフラグ
+IS_INSTALL_APP_TMUX=0
+
+# Git設定インストールフラグ
+IS_INSTALL_CONF_GIT=0
+# vim設定インストールフラグ
+IS_INSTALL_CONF_VIM=0
+# tmux設定インストールフラグ
+IS_INSTALL_CONF_TMUX=0
+# shell(bash)設定インストールフラグ
+IS_INSTALL_CONF_SHELL_BASH=0
+
+# アプリケーションインストールフラグ
+IS_INSTALL_APP=0
+# 設定インストールフラグ
+IS_INSTALL_CONF=0
+# 設定ファイルCleanフラグ
+IS_CLEAN_CONF=0
+
+# インストール結果格納
+RES_STRING="install result:"
+##############################################
+
+# アプリケーションインストール先のベースディレクトリ
+SYSTEM_BASE_DIR_PATH=${HOME}/.sys
+
 
 PROGRAM=$(basename $0)
 
-
 function usage()
 {
-  echo "Usage: $PROGRAM [Options]..."
-  echo "  This script is dotfiles installer."
-  echo "Options:"
-  echo "  --git            install git setting"
-  echo "  --shell TYPE     install shell setting"
-  echo "  --tmux           install tmux setting"
-  echo "  --vim [Option]   install vim setting"
-  echo "                   If selected multiple option valid first option"
-  echo "                   Option:"
-  echo "                     company"
-  echo "                     no-lang"
-  echo "  --w3m            install w3m setting"
-  echo ""
-  echo "  --clean          clean backup file(s)"
-  echo "  -h, --help       show help"
+  echo -e "Usage: $PROGRAM \e[91mCOMMAND1\e[m [\e[93mOPTIONS\e[m]... \e[91mCOMMAND2\e[m [\e[93mOPTIONS\e[m]..."
+  echo -e "  This script is application and dotfiles installer."
+  echo -e "\e[91mCOMMAND\e[m:"
+  echo -e "  app               Install application"
+  echo -e "  conf              Install dotfile"
+  echo -e "\e[93mOPTIONS\e[m:"
+  echo -e "  --git             Install git(app/conf)"
+  echo -e "  --tmux            Install tmux(app/conf)"
+  echo -e "  --vim             Install vim(app/conf)"
+  echo -e "  --neovim            Install neovim(app)"
+  echo -e "  --shell <SHELL>   Install shell(conf)"
+  echo -e "                    support SHELL:"
+  echo -e "                      bash"
+  echo -e "  --clean           clean config files"
+  echo -e "  --path <PATH>     Specify install path. If not exist path to create path."
+  echo -e "                    default:"
+  echo -e "                      ${SYSTEM_BASE_DIR_PATH}"
+  echo -e "  -h, --help        show help"
 }
 
-
-if [ $# -eq 0 ]; then
-  usage
-  exit 0
-fi
-
-
-FLAG_VIM=0
-FLAG_TMUX=0
-FLAG_SHELL=0
-FLAG_W3M=0
-FLAG_GIT=0
-
-
-VIM_TYPE=
-SHELL_TYPE=
-
-
+# 引数処理
 function parse_args()
 {
-  while [ -n "$1" ]
-  do
+  while [ -n "$1" ]; do
+
     case $1 in
+      app )
+        IS_INSTALL_APP=1
+        IS_INSTALL_CONF=0
+        ;;
+      conf )
+        IS_INSTALL_APP=0
+        IS_INSTALL_CONF=1
+        ;;
+      --git )
+        if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          IS_INSTALL_APP_GIT=1
+        elif [ ${IS_INSTALL_CONF} -eq 1 ]; then
+          IS_INSTALL_CONF_GIT=1
+        fi
+        ;;
       --vim )
-        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
-          FLAG_VIM=1
-        elif [[ "$2" == "company" ]]; then
-          FLAG_VIM=1
-          VIM_TYPE="company"
-          shift
-        elif [[ "$2" == "no-lang" ]]; then
-          FLAG_VIM=1
-          VIM_TYPE="no-lang"
-        else
-          echo "vim install argument error."
-          exit 1
+        if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          IS_INSTALL_APP_VIM=1
+        elif [ ${IS_INSTALL_CONF} -eq 1 ]; then
+          IS_INSTALL_CONF_VIM=1
+        fi
+        ;;
+      --neovim )
+        if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          IS_INSTALL_APP_NEOVIM=1
         fi
         ;;
       --tmux )
-        FLAG_TMUX=1
+        if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          IS_INSTALL_APP_TMUX=1
+        elif [ ${IS_INSTALL_CONF} -eq 1 ]; then
+          IS_INSTALL_CONF_TMUX=1
+        fi
         ;;
       --shell )
-        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
-          echo "shell install argument error."
+        if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          print_error "This option is not support for application"
           exit 1
         fi
-        SHELL_TYPE=$2
-        FLAG_SHELL=1
+        if [[ "$2" =~ ^-+ ]] || [[ "$2" == "" ]]; then
+          print_error "'$2' is failure parameter"
+          exit 1
+        fi
+        if [ "$2" == "bash" ]; then
+          IS_INSTALL_CONF_SHELL_BASH=1
+        else
+          print_error "'$2' is not support"
+          exit 1
+        fi
         shift
         ;;
-      --w3m )
-        FLAG_W3M=1
-        ;;
-      --git )
-        FLAG_GIT=1
-        ;;
       --clean )
-        rm -rf ~/.*.backup*
-        echo "clean done."
-        exit 0
+        IS_CLEAN_CONF=1
         ;;
       -h | --help )
         usage
         exit 0
         ;;
+      * )
+        usage
+        exit 0
+        ;;
     esac
+
     shift
   done
 }
 
-parse_args $@
+function prefix_proc()
+{
+  :
+}
 
-# 以下、インストール処理
+function suffix_proc()
+{
+  :
+}
 
-INSTALL_RES="install result:"
+# 結果を出力
+# $1-正常(0)/異常(1), $2-出力する文字列
+function result_print()
+{
+  if [ $1 -eq 0 ]; then
+    print_success "$2"
+  elif [ $1 -eq 1 ]; then
+    print_error "$2"
+  fi
+}
 
-if [ $FLAG_GIT -eq 1 ]; then
-  cd ./git_setting/
+# porgのインストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_porg()
+{
+  # porgインストールチェック
+  is_installed_app "porg"
+  if [ $? -eq 0 ] || [ -e ${SYSTEM_BASE_DIR_PATH}/usr/bin/porg ]; then
+    # porgがインストール済み
+    return 0
+  fi
+
+  cd ./app
+  ./install_porg.sh
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+    fi
+    return 1
+  fi
+  cd ../
+
+  source ~/.profile
+
+  return 0
+}
+
+# アプリケーションインストール処理
+function install_applications()
+{
+  if [ ${IS_INSTALL_APP_GIT} -eq 1 ]; then
+    install_app_git
+    RES_STRING="${RES_STRING}\n    `result_print $? "git install application"`"
+  fi
+
+  if [ ${IS_INSTALL_APP_VIM} -eq 1 ]; then
+    install_app_vim
+    RES_STRING="${RES_STRING}\n    `result_print $? "vim install application"`"
+  fi
+
+  if [ ${IS_INSTALL_APP_NEOVIM} -eq 1 ]; then
+    install_app_neovim
+    RES_STRING="${RES_STRING}\n    `result_print $? "neovim install application"`"
+  fi
+  if [ ${IS_INSTALL_APP_TMUX} -eq 1 ]; then
+    install_app_tmux
+    local RET_CODE=$?
+    RES_STRING="${RES_STRING}\n    `result_print ${RET_CODE} "tmux install application"`"
+    if [ ${RET_CODE} -eq 0 ]; then
+      RES_STRING="${RES_STRING}\n        Prefix+I: plugins install"
+      RES_STRING="${RES_STRING}\n        Prefix+U: plugins upgrade"
+      RES_STRING="${RES_STRING}\n        Prefix+alt+u: plugins uninstall"
+    fi
+  fi
+}
+
+# gitのインストール処理
+# 0: 正常終了, 1: インストール時異常, 2: インストール済み
+function install_app_git()
+{
+  # gitインストールチェック
+  is_installed_app "git"
+  if [ $? -eq 0 ]; then
+    # gitがインストール済み
+    return 2
+  fi
+
+  cd ./app
+  ./install_git.sh --path "${SYSTEM_BASE_DIR_PATH}"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+    fi
+    return 1
+  fi
+  cd ../
+
+  return 0
+}
+
+# vimのインストール処理
+# 0: 正常終了, 1: インストール時異常, 2: インストール済み
+function install_app_vim()
+{
+  # vimインストールチェック
+  is_installed_app "vim"
+  if [ $? -eq 0 ]; then
+    # vimがインストール済み
+    return 2
+  fi
+
+  cd ./app
+  ./install_vim.sh --path "${SYSTEM_BASE_DIR_PATH}" --enable-python3
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+    fi
+    return 1
+  fi
+  cd ../
+
+  return 0
+}
+
+# neovimのインストール処理
+# 0: 正常終了, 1: インストール時異常, 2: インストール済み
+function install_app_neovim()
+{
+  # neovimインストールチェック
+  is_installed_app "neovim"
+  if [ $? -eq 0 ]; then
+    # neovimがインストール済み
+    return 2
+  fi
+
+  cd ./app
+  ./install_neovim.sh --path "${SYSTEM_BASE_DIR_PATH}"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+    fi
+    return 1
+  fi
+  cd ../
+
+  return 0
+}
+
+# tmuxのインストール処理
+# 0: 正常終了, 1: インストール時異常, 2: インストール済み
+function install_app_tmux()
+{
+  # tmuxインストールチェック
+  is_installed_app "tmux"
+  if [ $? -eq 0 ]; then
+    # tmuxがインストール済み
+    return 2
+  fi
+
+  cd ./app
+  ./install_tmux.sh --path "${SYSTEM_BASE_DIR_PATH}"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+      cd ../
+    fi
+    return 1
+  fi
+  cd ../
+
+  return 0
+}
+
+
+# 設定インストール処理
+function install_config()
+{
+  cd ./conf
+
+  if [ ${IS_INSTALL_CONF_GIT} -eq 1 ]; then
+    install_conf_git
+    RES_STRING="${RES_STRING}\n    `result_print $? "git install config"`"
+  fi
+
+  if [ ${IS_INSTALL_CONF_SHELL_BASH} -eq 1 ]; then
+    install_conf_shell "bash"
+    RES_STRING="${RES_STRING}\n    `result_print $? "shell(bash) install config"`"
+  fi
+
+  if [ ${IS_INSTALL_CONF_TMUX} -eq 1 ]; then
+    install_conf_tmux
+    RES_STRING="${RES_STRING}\n    `result_print $? "tmux install config"`"
+  fi
+
+  if [ ${IS_INSTALL_CONF_VIM} -eq 1 ]; then
+    install_conf_vim
+    RES_STRING="${RES_STRING}\n    `result_print $? "vim install config"`"
+  fi
+
+  cd ../
+}
+
+# gitの設定インストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_conf_git()
+{
+  cd ./git
   ./install.sh
-  if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    git install success"
-  else
-    INSTALL_RES="$INSTALL_RES\n    git install faild"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+    fi
+    cd ../
+    return 1
   fi
   cd ../
-fi
 
-if [ $FLAG_SHELL -eq 1 ]; then
-  cd ./shell_setting/
-  ./install.sh $SHELL_TYPE
-  if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    shell install success"
-  else
-    INSTALL_RES="$INSTALL_RES\n    shell install faild"
+  return 0
+}
+
+# shell(bash)の設定インストール処理
+# $1-shellの種類
+# 0: 正常終了, 1: インストール時異常
+function install_conf_shell()
+{
+  cd ./shell
+  ./install.sh "bash"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+    fi
+    cd ../
+    return 1
   fi
   cd ../
-fi
 
-if [ $FLAG_TMUX -eq 1 ]; then
-  cd ./tmux_setting/
+  return 0
+}
+
+# tmuxの設定インストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_conf_tmux()
+{
+  cd ./tmux
   ./install.sh
-  if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    tmux install success"
-    INSTALL_RES="$INSTALL_RES\n        Prefix+I: plugins install"
-    INSTALL_RES="$INSTALL_RES\n        Prefix+U: plugins upgrade"
-    INSTALL_RES="$INSTALL_RES\n        Prefix+alt+u: plugins uninstall"
-  else
-    INSTALL_RES="$INSTALL_RES\n    tmux install faild"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+    fi
+    cd ../
+    return 1
   fi
   cd ../
-fi
 
-if [ $FLAG_VIM -eq 1 ]; then
-  cd ./vim_setting/
-  ./install.sh $VIM_TYPE
-  if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    vim install success"
-  else
-    INSTALL_RES="$INSTALL_RES\n    vim install faild"
-  fi
-  cd ../
-fi
+  return 0
+}
 
-if [ $FLAG_W3M -eq 1 ]; then
-  cd ./w3m_setting/
+# vimの設定インストール処理
+# 0: 正常終了, 1: インストール時異常
+function install_conf_vim()
+{
+  cd ./vim
   ./install.sh
-  if [ $? -eq 0 ]; then
-    INSTALL_RES="$INSTALL_RES\n    w3m install success"
-  else
-    INSTALL_RES="$INSTALL_RES\n    w3m install faild"
+  if [ $? -ne 0 ]; then
+    if [ -e ./temp ]; then
+      rm -rf temp
+    fi
+    cd ../
+    return 1
   fi
   cd ../
-fi
 
-echo -e "$INSTALL_RES"
+  return 0
+}
+
+# 指定の設定Clean実行
+# $1-該当設定
+function clean_proc()
+{
+  local CONF_NAME=$1
+  cd ./"${CONF_NAME}"
+  ./install.sh --clean
+  cd ../
+}
+
+# 設定Clean処理
+function clean_conf()
+{
+  cd ./conf
+
+  # Git
+  clean_proc "git"
+  # tmux
+  clean_proc "tmux"
+  # vim
+  clean_proc "vim"
+  # shell(bash)
+  clean_proc "shell"
+
+  cd ../
+}
+
+function main()
+{
+  if [ $# -eq 0 ]; then
+    usage
+    exit 0
+  fi
+
+  parse_args $@
+
+  if [ ${IS_CLEAN_CONF} -eq 1 ]; then
+    clean_conf
+    exit 0
+  fi
+
+  if [ ${IS_INSTALL_APP} -eq 0 ] && [ ${IS_INSTALL_CONF} -eq 0 ]; then
+    usage
+    exit 1
+  fi
+
+  prefix_proc
+
+  install_porg
+  if [ $? -ne 0 ]; then
+    print_error "porg install application"
+    exit 1
+  fi
+
+  install_applications
+
+  install_config
+
+  suffix_proc
+
+  echo -e "${RES_STRING}"
+}
+
+main $@
