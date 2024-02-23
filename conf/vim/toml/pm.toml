@@ -24,8 +24,4 @@
 
 # プラグインマネージャ
 [[plugins]]
-repo = 'Shougo/dein.vim'
-
-# プラグインアップデート補助
-[[plugins]]
-repo = 'wsdjeg/dein-ui.vim'
+repo = 'tani/vim-jetpack'
