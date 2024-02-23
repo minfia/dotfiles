@@ -46,7 +46,7 @@ function suffix_proc()
   setup_plugin_list
 
   # プラグインのインストール
-  vim -c ":q"
+  vim -c ":q!" -c ":q!"
 
   return 0
 }
@@ -56,7 +56,7 @@ function suffix_proc()
 # プラグインマネージャーのセットアップ
 function setup_plugin_manager()
 {
-  git clone https://github.com/Shougo/dein.vim ${CONF_ROOT_PATH}/.vim/dein/repos/github.com/Shougo/dein.vim
+  curl -fLo ~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim
 }
 
 # プラグインリストのセットアップ
