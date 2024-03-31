@@ -20,8 +20,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 1. プラグインのインストール
 
 ## プラグイン一覧
-* [Shougo/dein.vim](https://github.com/Shougo/dein.vim)
-* [wsdjeg/dein-ui.vim](https://github.com/wsdjeg/dein-ui.vim)
+* [tani/vim-jetpack](https://github.com/tani/vim-jetpack)
 * [tpope/fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-markdown](https://github.com/tpope/vim-markdown)
 * [kannokanno/previm](https://github.com/previm/previm)

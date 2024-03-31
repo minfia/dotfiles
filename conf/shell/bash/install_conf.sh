@@ -88,6 +88,9 @@ function suffix_proc()
 
 ## ここから下は基本ロジックのため安易に変更しない ##
 
+# 追加機能のベースパス
+SYSTEM_BASE_DIR_PATH=${HOME}/.sys
+
 # ヘルプ表示
 function usage()
 {
@@ -95,6 +98,9 @@ function usage()
   echo "  This script is '${APP_NAME}' config installer."
   echo "Options:"
   echo "  --clean       delete '${APP_NAME}' config backup files"
+  echo "  -p, --path    Specify extend system install path. If not exist path to create path."
+  echo "                default:"
+  echo "                  ${SYSTEM_BASE_DIR_PATH}"
   echo "  -h, --help    show help"
 }
 
@@ -113,6 +119,16 @@ function parse_args()
           rm -rf ${CONF_ROOT_PATH}/${FL}.backup_*
         done
         exit 0
+        ;;
+      -p | --path )
+        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]] || [[ ! "$2" =~ ^/ ]]; then
+          # not input string | start charactor '-' | not start charactor '/'
+          print_error "Specify extend system install path."
+          exit 1
+        else
+          SYSTEM_BASE_DIR_PATH=$2
+          shift
+        fi
         ;;
       * )
         usage
