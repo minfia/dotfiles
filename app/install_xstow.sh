@@ -48,6 +48,11 @@ function suffix_make_proc()
     return 1
   fi
 
+  local XSTOW_PATH=${SYSTEM_BASE_DIR_PATH}/xstow
+  if [ ! -d ${XSTOW_PATH} ]; then
+    mkdir ${XSTOW_PATH}
+  fi
+
   return 0
 }
 ##############################################
@@ -59,7 +64,7 @@ function suffix_make_proc()
 ## ここから下は基本ロジックのため安易に変更しない ##
 
 # インストール先未指定時のベースパス
-SYSTEM_BASE_DIR_PATH='${HOME}'/.sys
+SYSTEM_BASE_DIR_PATH=${HOME}/.sys
 
 # ヘルプ表示
 function usage()
