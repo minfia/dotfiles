@@ -144,7 +144,7 @@ function prefix_proc()
 
 function suffix_proc()
 {
-  :
+  source ~/.profile
 }
 
 # 結果を出力
@@ -158,19 +158,19 @@ function result_print()
   fi
 }
 
-# porgのインストール処理
+# xstowのインストール処理
 # 0: 正常終了, 1: インストール時異常
-function install_porg()
+function install_xstow()
 {
-  # porgインストールチェック
-  is_installed_app "porg"
-  if [ $? -eq 0 ] || [ -e ${SYSTEM_BASE_DIR_PATH}/usr/bin/porg ]; then
-    # porgがインストール済み
+  # xstowインストールチェック
+  is_installed_app "xstow"
+  if [ $? -eq 0 ] || [ -e ${SYSTEM_BASE_DIR_PATH}/usr/bin/xstow ]; then
+    # xstowがインストール済み
     return 0
   fi
 
   cd ./app
-  ./install_porg.sh
+  ./install_xstow.sh
   if [ $? -ne 0 ]; then
     if [ -e ./temp ]; then
       rm -rf temp
@@ -464,9 +464,9 @@ function main()
 
   prefix_proc
 
-  install_porg
+  install_xstow
   if [ $? -ne 0 ]; then
-    print_error "porg install application"
+    print_error "xstow install application"
     exit 1
   fi
 

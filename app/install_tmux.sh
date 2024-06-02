@@ -45,6 +45,23 @@ function suffix_make_proc()
   :
   return 0
 }
+
+# 固有ヘルプ表示
+individual_usage()
+{
+  :
+}
+
+# 固有引数解析
+individual_parse_args()
+{
+  case $1 in
+    * )
+      usage
+      exit 0
+      ;;
+  esac
+}
 ##############################################
 
 ### build environment configure (function) ###
@@ -66,11 +83,14 @@ function usage()
   echo "  This script is '${APP_NAME}' installer."
   echo "Options:"
   echo "  --use-master  application build for master branch"
+  echo "  --show        show installed ${APP_NAME} versions"
+  echo "  --switch VER  switch to specific ${APP_NAME} version"
+  echo "  --remove VER  remove to specific ${APP_NAME} version"
   echo "  -p, --path    Specify install path. If not exist path to create path."
   echo "                default:"
   echo "                  ${SYSTEM_BASE_DIR_PATH}"
-
   echo "  -h, --help    show help"
+  individual_usage
 }
 
 # 引数解析
@@ -82,10 +102,62 @@ function parse_args()
       --use-master )
         USE_MASTER_BRANCH=1
         ;;
+      --show )
+        local VER_LIST=(`get_ver_list`)
+        local NOW_VER=`get_now_ver`
+        for ((i=0; i<${#VER_LIST[@]}; i++)); do
+          local IS_NOW=""
+          if [ "${VER_LIST[$i]}" == "${NOW_VER}" ]; then
+            IS_NOW="* "
+          fi
+          echo -e "${IS_NOW}\e[92m${VER_LIST[$i]}\e[m"
+        done
+        exit 0
+        ;;
+      --switch )
+        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
+          print_error "specify version."
+          exit 1
+        fi
+        local NOW_VER=`get_now_ver`
+        switch_version "$2"
+        local RES=$?
+        if [ ${RES} -eq 1 ]; then
+          print_error "switch version."
+          exit 1
+        elif [ ${RES} -eq 2 ]; then
+          print_error "$2 is not exist version."
+          exit 1
+        elif [ ${RES} -eq 3 ]; then
+          print_error "specified was the same version."
+          exit 1
+        else
+          print_success "switched ${NOW_VER} to $2"
+          exit 0
+        fi
+        ;;
+      --remove )
+        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
+          print_error "specify version."
+          exit 1
+        fi
+        remove_version "$2"
+        local RES=$?
+        if [ ${RES} -eq 1 ]; then
+          print_error "switch version."
+          exit 1
+        elif [ ${RES} -eq 2 ]; then
+          print_error "$2 is not exist version."
+          exit 1
+        else
+          print_success "remove $2."
+          exit 0
+        fi
+        ;;
       -p | --path )
         if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]] || [[ ! "$2" =~ ^/ ]]; then
           # not input string | start charactor '-' | not start charactor '/'
-          print_error "Specify install path."
+          print_error "specify install path."
           exit 1
         else
           SYSTEM_BASE_DIR_PATH=$2
@@ -97,8 +169,7 @@ function parse_args()
         exit 0
         ;;
       * )
-        usage
-        exit 0
+        individual_parse_args $1
         ;;
     esac
 
@@ -159,6 +230,120 @@ function download_proc()
   return 0
 }
 
+# インストール済みのバージョンリストを取得
+# 配列(バージョンリスト)
+function get_ver_list()
+{
+  local LIST=(`ls ${SYSTEM_BASE_DIR_PATH}/xstow | grep ${APP_NAME}`)
+  local VER_LIST=${LIST[@]#${APP_NAME}-}
+  echo ${VER_LIST[@]}
+}
+
+# 使用中のバージョンを取得
+# バージョン(文字列)を返す, 見つからない場合は空文字列
+function get_now_ver()
+{
+  local NOW_VER=""
+
+  if [ -L ${SYSTEM_BASE_DIR_PATH}/usr/bin/${APP_NAME} ]; then
+    # シンボリックリンクチェック
+    local LS_RES=(`ls -l ${SYSTEM_BASE_DIR_PATH}/usr/bin/${APP_NAME}`)
+    local SYMB_STR=${LS_RES[`expr ${#LS_RES[@]} - 1`]}
+    local PATH_LIST=(${SYMB_STR//\// })
+
+    for ((i=0; i<${#PATH_LIST[@]}; i++)); do
+      if [[ "${PATH_LIST[$i]}" =~ ^"${APP_NAME}-" ]]; then
+        NOW_VER=${PATH_LIST[$i]#${APP_NAME}-}
+        break
+      fi
+    done
+  fi
+
+  echo "${NOW_VER}"
+}
+
+# 指定バージョンへ切り替え
+# $1-切り替えるバージョン
+# 0: 正常終了, 1: 異常終了, 2: 存在しないバージョン 3: バージョンが同じ
+function switch_version()
+{
+  local VER_LIST=(`get_ver_list`)
+  local IS_EXIST_VER=0
+  local NOW_VER=`get_now_ver`
+  local SW_VER=$1
+
+  if [ "${NOW_VER}" == "${SW_VER}" ]; then
+    return 3
+  fi
+
+  for ((i=0; i<${#VER_LIST[@]}; i++)); do
+    if [ "${VER_LIST[$i]}" == "${SW_VER}" ]; then
+      IS_EXIST_VER=1
+    fi
+  done
+  if [ ${IS_EXIST_VER} -ne 1 ]; then
+    return 2
+  fi
+
+  # シンボリックリンク切り替え処理
+
+  # 現在のバージョンを無効化
+  # xstow -D -d prefixで指定したインストール先 -t シンボリックリンク配置先 シンボリックリンク元のディレクトリ名
+  xstow -D -d ${SYSTEM_BASE_DIR_PATH}/xstow -t ${SYSTEM_BASE_DIR_PATH}/usr ${APP_NAME}-${NOW_VER}
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+
+  # 指定されたバージョンを有効化
+  # xstow -d prefixで指定したインストール先 -t シンボリックリンク配置先 シンボリックリンク元のディレクトリ名
+  xstow -d ${SYSTEM_BASE_DIR_PATH}/xstow -t ${SYSTEM_BASE_DIR_PATH}/usr ${APP_NAME}-${SW_VER}
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+
+  return 0
+}
+
+# 指定バージョンを削除する
+# $1-削除するバージョン
+# 0: 正常終了, 1: 異常終了, 2: 存在しないバージョン
+function remove_version()
+{
+  local VER_LIST=(`get_ver_list`)
+  local IS_EXIST_VER=0
+  local NOW_VER=`get_now_ver`
+  local DEL_VER=$1
+
+  for ((i=0; i<${#VER_LIST}; i++)); do
+    if [ "${VER_LIST[$i]}" == "${DEL_VER}" ]; then
+      IS_EXIST_VER=1
+      break
+    fi
+  done
+  if [ ${IS_EXIST_VER} -ne 1 ]; then
+    return 2
+  fi
+
+  # アンインストール処理
+
+  # xstow -D -d prefixで指定したインストール先 -t シンボリックリンク配置先 シンボリックリンク元のディレクトリ名
+  if [ "${NOW_VER}" == "${DEL_VER}" ]; then
+    # 使用バージョンと指定バージョンが同じ場合は無効化
+    xstow -D -d ${SYSTEM_BASE_DIR_PATH}/xstow -t ${SYSTEM_BASE_DIR_PATH}/usr ${APP_NAME}-${DEL_VER}
+    if [ $? -ne 0 ]; then
+      return 1
+    fi
+  fi
+
+  # ディレクトリ削除
+  rm -rf ${SYSTEM_BASE_DIR_PATH}/xstow/${APP_NAME}-${DEL_VER}
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+
+  return 0
+}
+
 function main()
 {
   install_required_pkgs
@@ -173,9 +358,9 @@ function main()
   mkdir ./temp
   cd temp
 
-  is_installed_app "porg"
+  is_installed_app "xstow"
   if [ $? -ne 0 ]; then
-    print_error "'porg' not exist."
+    print_error "'xstow' not exist."
     exit 1
   fi
 
@@ -186,6 +371,12 @@ function main()
   fi
 
   tar vfx ${ARCHIVE_NAME}.tar.gz
+  if [ ${USE_MASTER_BRANCH} -eq 1 ]; then
+    local INSTALL_DATE=`date +"%Y%m%d"`
+    local MV_NAME=${ARCHIVE_NAME}-${INSTALL_DATE}
+    mv ${ARCHIVE_NAME} ${MV_NAME}
+    ARCHIVE_NAME=${MV_NAME}
+  fi
   cd ${ARCHIVE_NAME}
 
   prefix_make_proc
@@ -194,20 +385,30 @@ function main()
     exit 1
   fi
 
-  ./configure --prefix=${SYSTEM_BASE_DIR_PATH}/usr \
+  ./configure --prefix=${SYSTEM_BASE_DIR_PATH}/xstow/${ARCHIVE_NAME} \
               ${CONFIGURE_OPTIONS}
 
   make ${BUILD_TARGET}
-  if [ $? -ne 0 ];then
+  if [ $? -ne 0 ]; then
     print_error "make process."
     exit 1
   fi
 
-  if [ ${USE_MASTER_BRANCH} -eq 1 ]; then
-    local INSTALL_DATE=`date +"%Y%m%d"`
-    porg -lp ${APP_NAME}-${INSTALL_DATE}_master -E/tmp:/dev:/proc:/selinux:/sys:/run:`pwd` "make install"
-  else
-    porg -lD -E/tmp:/dev:/proc:/selinux:/sys:/run:`pwd` "make install"
+  make install
+  if [ $? -ne 0 ]; then
+    print_error "make install process."
+    exit 1
+  fi
+
+  # シンボリックリンクを張る
+  # xstow -d prefixで指定したインストール先 -t シンボリックリンク配置先 シンボリックリンク元のディレクトリ名
+  local IS_INSTALLED=`get_now_ver`
+  if [ "${IS_INSTALLED}" == "" ]; then
+    xstow -d ${SYSTEM_BASE_DIR_PATH}/xstow -t ${SYSTEM_BASE_DIR_PATH}/usr ${ARCHIVE_NAME}
+    if [ $? -ne 0 ]; then
+      print_error "xstow registry process."
+      exit 1
+    fi
   fi
 
   suffix_make_proc
