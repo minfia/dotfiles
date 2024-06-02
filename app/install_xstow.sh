@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 ### include shell scripts ###
 . ../lib/package_manager.sh
 . ../lib/generic.sh
@@ -9,18 +8,18 @@
 
 ##### required user configure (variable) #####
 # プロジェクトホスティングのユーザ名部分
-USER_NAME=porg
+USER_NAME=majorkingleo
 
 # アプリ名
-APP_NAME=porg
+APP_NAME=xstow
 
 # アプリバージョン
-APP_VER=0.10
+APP_VER=1.1.1
 ##############################################
 
 ### build environment configure (variable) ###
 # ビルドに必要なパッケージを指定
-PKG_LIST=("wget" "gcc" "make" "g++")
+PKG_LIST=("wget" "g++" "make")
 
 # makeのターゲット指定
 BUILD_TARGET=
@@ -33,10 +32,7 @@ CONFIGURE_OPTIONS=
 # ./configure前に必要な処理
 function prefix_make_proc()
 {
-  # ./configure時のオプション指定
-  CONFIGURE_OPTIONS="--sysconfdir=${SYSTEM_BASE_DIR_PATH}/etc
-                     --with-porg-logdir=${SYSTEM_BASE_DIR_PATH}/var/log/porg
-                     --disable-grop"
+  :
   return 0
 }
 
@@ -52,6 +48,11 @@ function suffix_make_proc()
     return 1
   fi
 
+  local XSTOW_PATH=${SYSTEM_BASE_DIR_PATH}/xstow
+  if [ ! -d ${XSTOW_PATH} ]; then
+    mkdir ${XSTOW_PATH}
+  fi
+
   return 0
 }
 ##############################################
@@ -61,9 +62,6 @@ function suffix_make_proc()
 
 
 ## ここから下は基本ロジックのため安易に変更しない ##
-
-# masterブランチを対象にするフラグ
-USE_MASTER_BRANCH=0
 
 # インストール先未指定時のベースパス
 SYSTEM_BASE_DIR_PATH=${HOME}/.sys
@@ -77,7 +75,6 @@ function usage()
   echo "  -p, --path    Specify install path. If not exist path to create path."
   echo "                default:"
   echo "                  ${SYSTEM_BASE_DIR_PATH}"
-
   echo "  -h, --help    show help"
 }
 
@@ -138,13 +135,15 @@ function install_required_pkgs()
 }
 
 # アーカイブファイル名
-ARCHIVE_NAME=${APP_NAME}-${APP_VER}
+ARCHIVE_NAME=${APP_NAME}
 
 # ビルド対象のアーカイブダウンロード
 # 0: 正常終了, 1: ダウンロード失敗
 function download_proc()
 {
-  wget -O ${ARCHIVE_NAME}.tar.gz https://sourceforge.net/projects/${USER_NAME}/files/${APP_NAME}-${APP_VER}.tar.gz
+  ARCHIVE_NAME=${ARCHIVE_NAME}-${APP_VER}
+
+  wget -O ${ARCHIVE_NAME}.tar.gz https://github.com/${USER_NAME}/${APP_NAME}/releases/download/${APP_VER}/${ARCHIVE_NAME}.tar.gz
   if [ $? -ne 0 ]; then
     return 1
   fi
@@ -190,10 +189,9 @@ function main()
     exit 1
   fi
 
-  mkdir -p ${SYSTEM_BASE_DIR_PATH}/var/log/porg
-  ./porg/porg -lD "make install"
+  make install
   if [ $? -ne 0 ]; then
-    print_error "install process."
+    print_error "make install."
     exit 1
   fi
 
