@@ -218,13 +218,6 @@ function install_applications()
 # 0: 正常終了, 1: インストール時異常, 2: インストール済み
 function install_app_git()
 {
-  # gitインストールチェック
-  is_installed_app "git"
-  if [ $? -eq 0 ]; then
-    # gitがインストール済み
-    return 2
-  fi
-
   cd ./app
   ./install_git.sh --path "${SYSTEM_BASE_DIR_PATH}"
   if [ $? -ne 0 ]; then
@@ -243,13 +236,6 @@ function install_app_git()
 # 0: 正常終了, 1: インストール時異常, 2: インストール済み
 function install_app_vim()
 {
-  # vimインストールチェック
-  is_installed_app "vim"
-  if [ $? -eq 0 ]; then
-    # vimがインストール済み
-    return 2
-  fi
-
   cd ./app
   ./install_vim.sh --path "${SYSTEM_BASE_DIR_PATH}" --enable-python3
   if [ $? -ne 0 ]; then
@@ -268,13 +254,6 @@ function install_app_vim()
 # 0: 正常終了, 1: インストール時異常, 2: インストール済み
 function install_app_neovim()
 {
-  # neovimインストールチェック
-  is_installed_app "neovim"
-  if [ $? -eq 0 ]; then
-    # neovimがインストール済み
-    return 2
-  fi
-
   cd ./app
   ./install_neovim.sh --path "${SYSTEM_BASE_DIR_PATH}"
   if [ $? -ne 0 ]; then
@@ -293,13 +272,6 @@ function install_app_neovim()
 # 0: 正常終了, 1: インストール時異常, 2: インストール済み
 function install_app_tmux()
 {
-  # tmuxインストールチェック
-  is_installed_app "tmux"
-  if [ $? -eq 0 ]; then
-    # tmuxがインストール済み
-    return 2
-  fi
-
   cd ./app
   ./install_tmux.sh --path "${SYSTEM_BASE_DIR_PATH}"
   if [ $? -ne 0 ]; then

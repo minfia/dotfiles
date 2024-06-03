@@ -95,6 +95,7 @@ function usage()
   echo "Options:"
   echo "  --use-master  application build for master branch"
   echo "  --show        show installed ${APP_NAME} versions"
+  echo "  --tag VER     specity repository tag(version)"
   echo "  --switch VER  switch to specific ${APP_NAME} version"
   echo "  --remove VER  remove to specific ${APP_NAME} version"
   echo "  -p, --path    Specify install path. If not exist path to create path."
@@ -125,9 +126,17 @@ function parse_args()
         done
         exit 0
         ;;
+      --tag )
+        if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
+          print_error "specify install version."
+          exit 1
+        fi
+        APP_VER=$2
+        shift
+        ;;
       --switch )
         if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
-          print_error "specify version."
+          print_error "specify switch version."
           exit 1
         fi
         local NOW_VER=`get_now_ver`
@@ -149,13 +158,13 @@ function parse_args()
         ;;
       --remove )
         if [[ -z "$2" ]] || [[ "$2" =~ ^-+ ]]; then
-          print_error "specify version."
+          print_error "specify remove version."
           exit 1
         fi
         remove_version "$2"
         local RES=$?
         if [ ${RES} -eq 1 ]; then
-          print_error "switch version."
+          print_error "remove version."
           exit 1
         elif [ ${RES} -eq 2 ]; then
           print_error "$2 is not exist version."
