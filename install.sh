@@ -189,21 +189,25 @@ function install_xstow()
 function install_applications()
 {
   if [ ${IS_INSTALL_APP_GIT} -eq 1 ]; then
-    install_app_git
+    #install_app_git
+    install_app "git" "--path "${SYSTEM_BASE_DIR_PATH}""
     RES_STRING="${RES_STRING}\n    `result_print $? "git install application"`"
   fi
 
   if [ ${IS_INSTALL_APP_VIM} -eq 1 ]; then
-    install_app_vim
+    #install_app_vim
+    install_app "vim" "--path "${SYSTEM_BASE_DIR_PATH}" --enable-python3"
     RES_STRING="${RES_STRING}\n    `result_print $? "vim install application"`"
   fi
 
   if [ ${IS_INSTALL_APP_NEOVIM} -eq 1 ]; then
-    install_app_neovim
+    #install_app_neovim
+    install_app "neovim" "--path "${SYSTEM_BASE_DIR_PATH}""
     RES_STRING="${RES_STRING}\n    `result_print $? "neovim install application"`"
   fi
   if [ ${IS_INSTALL_APP_TMUX} -eq 1 ]; then
-    install_app_tmux
+    #install_app_tmux
+    install_app "tmux" "--path "${SYSTEM_BASE_DIR_PATH}""
     local RET_CODE=$?
     RES_STRING="${RES_STRING}\n    `result_print ${RET_CODE} "tmux install application"`"
     if [ ${RET_CODE} -eq 0 ]; then
@@ -214,78 +218,30 @@ function install_applications()
   fi
 }
 
-# gitのインストール処理
-# 0: 正常終了, 1: インストール時異常, 2: インストール済み
-function install_app_git()
+# アプリのインストール処理
+# $1-アプリ名, $2-インストール引数
+# 0: 正常終了, 1: インストール時異常, 2: 引数異常
+function install_app()
 {
+  local APP_NAME="$1"
+  local APP_ARGS="$2"
+
+  if [[ "${APP_NAME}" =~ ^-+ ]]; then
+    return 2
+  fi
+
   cd ./app
-  ./install_git.sh --path "${SYSTEM_BASE_DIR_PATH}"
+  ./install_${APP_NAME}.sh ${APP_ARGS}
   if [ $? -ne 0 ]; then
     if [ -e ./temp ]; then
       rm -rf temp
       cd ../
     fi
-    return 1
   fi
   cd ../
 
   return 0
 }
-
-# vimのインストール処理
-# 0: 正常終了, 1: インストール時異常, 2: インストール済み
-function install_app_vim()
-{
-  cd ./app
-  ./install_vim.sh --path "${SYSTEM_BASE_DIR_PATH}" --enable-python3
-  if [ $? -ne 0 ]; then
-    if [ -e ./temp ]; then
-      rm -rf temp
-      cd ../
-    fi
-    return 1
-  fi
-  cd ../
-
-  return 0
-}
-
-# neovimのインストール処理
-# 0: 正常終了, 1: インストール時異常, 2: インストール済み
-function install_app_neovim()
-{
-  cd ./app
-  ./install_neovim.sh --path "${SYSTEM_BASE_DIR_PATH}"
-  if [ $? -ne 0 ]; then
-    if [ -e ./temp ]; then
-      rm -rf temp
-      cd ../
-    fi
-    return 1
-  fi
-  cd ../
-
-  return 0
-}
-
-# tmuxのインストール処理
-# 0: 正常終了, 1: インストール時異常, 2: インストール済み
-function install_app_tmux()
-{
-  cd ./app
-  ./install_tmux.sh --path "${SYSTEM_BASE_DIR_PATH}"
-  if [ $? -ne 0 ]; then
-    if [ -e ./temp ]; then
-      rm -rf temp
-      cd ../
-    fi
-    return 1
-  fi
-  cd ../
-
-  return 0
-}
-
 
 # 設定インストール処理
 function install_config()
@@ -293,89 +249,46 @@ function install_config()
   cd ./conf
 
   if [ ${IS_INSTALL_CONF_GIT} -eq 1 ]; then
-    install_conf_git
+    #install_conf_git
+    install_conf "git"
     RES_STRING="${RES_STRING}\n    `result_print $? "git install config"`"
   fi
 
   if [ ${IS_INSTALL_CONF_SHELL_BASH} -eq 1 ]; then
-    install_conf_shell "bash"
+    #install_conf_shell "bash"
+    install_conf "shell" "bash"
     RES_STRING="${RES_STRING}\n    `result_print $? "shell(bash) install config"`"
   fi
 
   if [ ${IS_INSTALL_CONF_TMUX} -eq 1 ]; then
-    install_conf_tmux
+    #install_conf_tmux
+    install_conf "tmux"
     RES_STRING="${RES_STRING}\n    `result_print $? "tmux install config"`"
   fi
 
   if [ ${IS_INSTALL_CONF_VIM} -eq 1 ]; then
-    install_conf_vim
+    #install_conf_vim
+    install_conf "vim"
     RES_STRING="${RES_STRING}\n    `result_print $? "vim install config"`"
   fi
 
   cd ../
 }
 
-# gitの設定インストール処理
-# 0: 正常終了, 1: インストール時異常
-function install_conf_git()
+# 設定インストール処理
+# $1-アプリ名, $2-インストール引数
+# 0: 正常終了, 1: インストール時異常, 2: 引数異常
+function install_conf()
 {
-  cd ./git
-  ./install.sh
-  if [ $? -ne 0 ]; then
-    if [ -e ./temp ]; then
-      rm -rf temp
-    fi
-    cd ../
-    return 1
+  local APP_NAME="$1"
+  local APP_ARGS="$2"
+
+  if [[ "${APP_NAME}" =~ ^-+ ]]; then
+    return 2
   fi
-  cd ../
 
-  return 0
-}
-
-# shell(bash)の設定インストール処理
-# $1-shellの種類
-# 0: 正常終了, 1: インストール時異常
-function install_conf_shell()
-{
-  cd ./shell
-  ./install.sh "bash"
-  if [ $? -ne 0 ]; then
-    if [ -e ./temp ]; then
-      rm -rf temp
-    fi
-    cd ../
-    return 1
-  fi
-  cd ../
-
-  return 0
-}
-
-# tmuxの設定インストール処理
-# 0: 正常終了, 1: インストール時異常
-function install_conf_tmux()
-{
-  cd ./tmux
-  ./install.sh
-  if [ $? -ne 0 ]; then
-    if [ -e ./temp ]; then
-      rm -rf temp
-    fi
-    cd ../
-    return 1
-  fi
-  cd ../
-
-  return 0
-}
-
-# vimの設定インストール処理
-# 0: 正常終了, 1: インストール時異常
-function install_conf_vim()
-{
-  cd ./vim
-  ./install.sh
+  cd ./${APP_NAME}
+  ./install.sh ${APP_ARGS}
   if [ $? -ne 0 ]; then
     if [ -e ./temp ]; then
       rm -rf temp
