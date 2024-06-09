@@ -34,6 +34,13 @@ function prefix_make_proc()
 {
   if [ ${USE_MASTER_BRANCH} -eq 1 ]; then
     CONFIGURE_OPTIONS="--enable-sixel"
+  else
+    local VER_ARR=(${APP_VER//./ })
+    local VER_MEJOR=${VER_ARR[0]}
+    local VER_MINOR=${VER_ARR[1]//[a-z]/ }
+    if [ ${VER_MEJOR} -ge 3 ] && [ ${VER_MINOR} -ge 4 ]; then
+      CONFIGURE_OPTIONS="--enable-sixel"
+    fi
   fi
   ./autogen.sh
   return 0
