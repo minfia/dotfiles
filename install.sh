@@ -68,6 +68,12 @@ INSTALL_APP_ARGS_LIST[${TYPE_TMUX}]=""
 INSTALL_APP_ARGS_LIST[${TYPE_VIM}]="--enable-python3"
 INSTALL_APP_ARGS_LIST[${TYPE_NEOVIM}]=""
 
+# アプリバージョン配列
+INSTALL_APP_VER_LIST[${TYPE_GIT}]=""
+INSTALL_APP_VER_LIST[${TYPE_TMUX}]=""
+INSTALL_APP_VER_LIST[${TYPE_VIM}]=""
+INSTALL_APP_VER_LIST[${TYPE_NEOVIM}]=""
+
 # 切り替えるアプリバージョン格納配列
 SWITCH_APP_VER_LIST[${TYPE_GIT}]=""
 SWITCH_APP_VER_LIST[${TYPE_TMUX}]=""
@@ -180,7 +186,13 @@ function parse_args()
     case $1 in
       --git )
         if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          if [[ "$2" =~ ^-+ ]]; then
+            print_error "'$2' is failure parameter"
+            exit 1
+          fi
           IS_INSTALL_APP_LIST[${TYPE_GIT}]=1
+          INSTALL_APP_VER_LIST[${TYPE_GIT}]="$2"
+          shift
         elif [ ${IS_SHOW_APP_VER} -eq 1 ]; then
           IS_SHOW_APP_VER_LIST[${TYPE_GIT}]=1
         elif [ ${IS_SWITCH_APP_VER} -eq 1 ]; then
@@ -205,7 +217,13 @@ function parse_args()
         ;;
       --tmux )
         if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          if [[ "$2" =~ ^-+ ]]; then
+            print_error "'$2' is failure parameter"
+            exit 1
+          fi
           IS_INSTALL_APP_LIST[${TYPE_TMUX}]=1
+          INSTALL_APP_VER_LIST[${TYPE_TMUX}]="$2"
+          shift
         elif [ ${IS_SHOW_APP_VER} -eq 1 ]; then
           IS_SHOW_APP_VER_LIST[${TYPE_TMUX}]=1
         elif [ ${IS_SWITCH_APP_VER} -eq 1 ]; then
@@ -230,7 +248,13 @@ function parse_args()
         ;;
       --vim )
         if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          if [[ "$2" =~ ^-+ ]]; then
+            print_error "'$2' is failure parameter"
+            exit 1
+          fi
           IS_INSTALL_APP_LIST[${TYPE_VIM}]=1
+          INSTALL_APP_VER_LIST[${TYPE_VIM}]="$2"
+          shift
         elif [ ${IS_SHOW_APP_VER} -eq 1 ]; then
           IS_SHOW_APP_VER_LIST[${TYPE_VIM}]=1
         elif [ ${IS_SWITCH_APP_VER} -eq 1 ]; then
@@ -255,7 +279,13 @@ function parse_args()
         ;;
       --neovim )
         if [ ${IS_INSTALL_APP} -eq 1 ]; then
+          if [[ "$2" =~ ^-+ ]]; then
+            print_error "'$2' is failure parameter"
+            exit 1
+          fi
           IS_INSTALL_APP_LIST[${TYPE_NEOVIM}]=1
+          INSTALL_APP_VER_LIST[${TYPE_NEOVIM}]="$2"
+          shift
         elif [ ${IS_SHOW_APP_VER} -eq 1 ]; then
           IS_SHOW_APP_VER_LIST[${TYPE_NEOVIM}]=1
         elif [ ${IS_SWITCH_APP_VER} -eq 1 ]; then
@@ -374,8 +404,17 @@ function install_applications()
   for ((i=0; i<${#IS_INSTALL_APP_LIST[@]}; i++)); do
     if [ ${IS_INSTALL_APP_LIST[$i]} -eq 1 ]; then
       # インストールパスを引数に追加する
+      if [ ! -z ${INSTALL_APP_VER_LIST[$i]} ]; then
+        # バージョン指定あり
+        if [ "${INSTALL_APP_VER_LIST[$i]}" == "master" ]; then
+          # master指定
+          INSTALL_APP_ARGS_LIST[$i]="${INSTALL_APP_ARGS_LIST[$i]} --use-master"
+        else
+          # バージョン指定
+          INSTALL_APP_ARGS_LIST[$i]="${INSTALL_APP_ARGS_LIST[$i]} --tag ${INSTALL_APP_VER_LIST[$i]}"
+        fi
+      fi
       INSTALL_APP_ARGS_LIST[$i]="${INSTALL_APP_ARGS_LIST[$i]} --path "${SYSTEM_BASE_DIR_PATH}""
-
       install_app "${APP_NAME_LIST[$i]}" "${INSTALL_APP_ARGS_LIST[$i]}"
       local RET_CODE=$?
       RES_STRING="${RES_STRING}\n    `result_print ${RET_CODE} "${APP_NAME_LIST[$i]} install application"`"
