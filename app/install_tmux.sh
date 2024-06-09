@@ -34,8 +34,22 @@ function prefix_make_proc()
 {
   if [ ${USE_MASTER_BRANCH} -eq 1 ]; then
     CONFIGURE_OPTIONS="--enable-sixel"
+  else
+    local VER_ARR=(${APP_VER//./ })
+    local VER_MEJOR=${VER_ARR[0]}
+    local VER_MINOR=${VER_ARR[1]//[a-z]/ }
+    if [ ${VER_MEJOR} -ge 3 ] && [ ${VER_MINOR} -ge 4 ]; then
+      CONFIGURE_OPTIONS="--enable-sixel"
+    fi
   fi
+
+  patch_eaw_fix
+  if [ $? -eq 1 ]; then
+    return 1
+  fi
+
   ./autogen.sh
+
   return 0
 }
 
@@ -43,6 +57,24 @@ function prefix_make_proc()
 function suffix_make_proc()
 {
   :
+  return 0
+}
+
+# tmuxへEast Asian Widthの修正を行うpatchを当てる
+# 0:正常終了, 1:異常終了
+function patch_eaw_fix()
+{
+  wget -O tmux_eaw_fix.tar.gz https://github.com/z80oolong/tmux-eaw-fix/archive/master.tar.gz
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+
+  tar zxvf ./tmux_eaw_fix.tar.gz
+  patch -p1 < tmux-eaw-fix-master/tmux-${APP_VER}-fix.diff
+  if [ $? -ne 0 ]; then
+    return 1
+  fi
+
   return 0
 }
 
