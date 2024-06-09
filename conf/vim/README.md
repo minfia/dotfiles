@@ -2,7 +2,7 @@
 vimの設定ファイルのインストール
 
 ## 説明
-vimを快適に使えるように設定を行うファイルを作成し、インストーラとして提供する。
+vimを快適に使えるように設定を行うファイルを作成し、インストーラーとして提供する。
 
 ## インストールに必要な環境
 * vim
@@ -21,7 +21,7 @@ vimを快適に使えるように設定を行うファイルを作成し、イ�
 
 ## プラグイン一覧
 * [tani/vim-jetpack](https://github.com/tani/vim-jetpack)
-* [tpope/fugitive](https://github.com/tpope/vim-fugitive)
+* [tpope/vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [tpope/vim-markdown](https://github.com/tpope/vim-markdown)
 * [kannokanno/previm](https://github.com/previm/previm)
 * [tyru/open-browser.vim](https://github.com/tyru/open-browser.vim)

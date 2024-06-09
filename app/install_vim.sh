@@ -254,7 +254,7 @@ function download_proc()
 # 配列(バージョンリスト)
 function get_ver_list()
 {
-  local LIST=(`ls ${SYSTEM_BASE_DIR_PATH}/xstow | grep ${APP_NAME}`)
+  local LIST=(`ls ${SYSTEM_BASE_DIR_PATH}/xstow | grep ^${APP_NAME}`)
   local VER_LIST=${LIST[@]#${APP_NAME}-}
   echo ${VER_LIST[@]}
 }
