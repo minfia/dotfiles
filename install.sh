@@ -378,6 +378,7 @@ function install_xstow()
   # xstowインストールチェック
   is_installed_app "xstow"
   if [ $? -eq 0 ] || [ -e ${SYSTEM_BASE_DIR_PATH}/usr/bin/xstow ]; then
+    source ~/.profile
     # xstowがインストール済み
     return 0
   fi
@@ -632,7 +633,6 @@ function main()
   fi
 
   parse_args $@
-
 
   if [ ${IS_INSTALL_APP} -eq 0 ] && [ ${IS_SHOW_APP_VER} -eq 0 ] && \
      [ ${IS_SWITCH_APP_VER} -eq 0 ] && [ ${IS_REMOVE_APP_VER} -eq 0 ] && \
