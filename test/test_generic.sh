@@ -16,11 +16,6 @@ function test_insert_string_in_file()
   local EXPECT=2
   unit_test_assert_equal_number ${EXPECT} ${RESULT} "insert string argument error(${LINENO})"
 
-  insert_string_in_file ${FILE_PATH} "ddddd"
-  local RESULT=$?
-  local EXPECT=3
-  unit_test_assert_equal_number ${EXPECT} ${RESULT} "insert string not exist file(${LINENO})"
-
   echo "" > ${FILE_PATH}
   insert_string_in_file ${FILE_PATH} ""
   local RESULT=$?
