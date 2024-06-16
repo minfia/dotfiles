@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 # ファイルに文字列を書き込む
-# すでに書き込まれているかをチェックして、書き込まれていなければ書き込みを行わない
+# すでに書き込まれているかをチェックして、書き込まれていなければ書き込みを行う
+# また、ファイルが存在していない場合は、ファイルを作成して書き込みを行う
 # $1-書き込むファイルパス, $2-書き込む文字列
-# 0: 成功, 1: すでに文字列が書き込まれている, 2: 引数エラー, 3: ファイルが存在しない, 4: 書き込む文字列がブランク
+# 0: 成功, 1: すでに文字列が書き込まれている, 2: 引数エラー, 4: 書き込む文字列がブランク
 function insert_string_in_file()
 {
   local WRITE_FILE_PATH=$1
@@ -14,7 +15,7 @@ function insert_string_in_file()
     return 2
   elif [ ! -e ${WRITE_FILE_PATH} ]; then
     # echo "not exist file."
-    return 3
+    touch ${WRITE_FILE_PATH}
   elif [ "${WRITE_STR}" = "" ]; then
     # echo "second argument is blank."
     return 4
