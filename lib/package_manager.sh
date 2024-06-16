@@ -25,6 +25,8 @@ function get_distribution()
     DISTRIBUTION="SUSE"
   elif [ -e /etc/gentoo-release ]; then
     DISTRIBUTION="Gentoo"
+  elif [ "$(uname)" == "Darwin" ]; then
+    DISTRIBUTION="macOS"
   else
     DISTRIBUTION="Unkown"
   fi
